@@ -33,10 +33,10 @@ module.exports = {
         type: Sequelize.DECIMAL
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       price: {
         type: Sequelize.DECIMAL

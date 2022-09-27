@@ -33,8 +33,18 @@ module.exports = (sequelize, DataTypes) => {
     country: DataTypes.STRING,
     lat: DataTypes.DECIMAL,
     lng: DataTypes.DECIMAL,
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [10, 1000]
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [10,1000]
+      }
+    },
     price: DataTypes.DECIMAL
   }, {
     sequelize,
