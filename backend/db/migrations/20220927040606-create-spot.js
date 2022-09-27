@@ -23,9 +23,6 @@ module.exports = {
       state: {
         type: Sequelize.STRING
       },
-      state: {
-        type: Sequelize.STRING
-      },
       country: {
         type: Sequelize.STRING
       },
