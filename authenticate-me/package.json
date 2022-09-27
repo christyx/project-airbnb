@@ -1,11 +1,7 @@
 {
-  "name": "project-airbnb",
+  "name": "authenticate-me",
   "version": "1.0.0",
-  "description": "## Database Schema Design",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "scripts": {
     "install": "npm --prefix backend install backend",
     "dev:backend": "npm install --prefix backend start",
@@ -17,15 +13,11 @@
     "node": "16.x",
     "npm": "8.x"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/christyx/project-airbnb.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/christyx/project-airbnb/issues"
+  "dependencies": {
+    "pg": "^8.8.0"
   },
-  "homepage": "https://github.com/christyx/project-airbnb#readme"
+  "description": ""
 }
