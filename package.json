@@ -1,7 +1,7 @@
 {
-  "name": "authenticate-me",
+  "name": "project-airbnb",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Database Schema Design",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,15 @@
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christyx/project-airbnb.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christyx/project-airbnb/issues"
+  },
+  "homepage": "https://github.com/christyx/project-airbnb#readme"
 }
