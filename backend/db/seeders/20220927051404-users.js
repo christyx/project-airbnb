@@ -1,6 +1,7 @@
 'use strict';
 
 const { User } = require('../models');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -13,7 +14,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     return await queryInterface.bulkInsert('User', [
+     return await queryInterface.bulkInsert('Users', [
       {
        firstName: "Rick",
        lastName: "Novak",
