@@ -24,13 +24,13 @@ module.exports = {
       },
       {
         spotId: 2,
-        url: "url3",
-        preview: true
+        url: null,
+        preview: false
       },
       {
         spotId: 2,
-        url: "url4",
-        preview: true
+        url: null,
+        preview: false
       },
       {
         spotId: 3,
