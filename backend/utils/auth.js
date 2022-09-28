@@ -52,11 +52,21 @@ const restoreUser = (req, res, next) => {
 const requireAuth = function (req, _res, next) {
   if (req.user) return next();
 
-  const err = new Error('Unauthorized');
-  err.title = 'Unauthorized';
-  err.errors = ['Unauthorized'];
+  const err = new Error('Unauthorized Not Log In');
+  err.title = 'Unauthorized Not Log In';
+  err.errors = ['Current user need to be logged in'];
   err.status = 401;
   return next(err);
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+const requireAuthRole = function (req, _res, next) {
+  if (req.user) return next();
+
+  const err = new Error('Unauthorized Role or Permission');
+  err.title = 'Unauthorized Role or Permission';
+  err.errors = ['Require a current user to have the correct role or permission'];
+  err.status = 403;
+  return next(err);
+}
+
+module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthRole };
