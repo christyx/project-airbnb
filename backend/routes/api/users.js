@@ -46,7 +46,7 @@ router.post(
     const existUsername = await User.findOne({where: {username}});
     if (existUsername) {
       const errUsername = new Error('Username failed');
-      errUsername.status = 400;
+      errUsername.status = 403;
       errUsername.title = "Username already exists";
       errUsername.errors = [ "Username already exists" ];
       return next(errUsername);

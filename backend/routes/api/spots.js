@@ -47,10 +47,7 @@ router.get(
 router.post(
   '/', restoreUser, async (req, res, next) => {
     const { user } = req;
-
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
-
     const existLats = await Spot.findAll({ where: {lat}});
 
     if (existLats) {
@@ -65,10 +62,8 @@ router.post(
       })
     }
 
-
     if(user) {
       const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price});
-
       return res.json(spot)
     } else {
       const err = new Error('No user loged in');
@@ -77,9 +72,33 @@ router.post(
       err.errors = ["No user loged in"];
       return next(err);
     };
-
   })
 
+  router.post(
+    '/:spotId/images', requireAuth, async (req, res, next) => {
+      const { user } = req;
+      const { spotId } = req.query;
+      const { url, preview } = req.body;
+
+      const spot = Spot.findByPk(spotId);
+
+      res.json(spotId)
+
+      //if(spot.ownerId === user.id) {
+        // const newImage = SpotImage.create({spotId, url, preview})
+        // return res.json(newImage)
+      //} else {
+    //    const err = new Error('Current user is not the owner');
+    //     err.status = 400;
+    //     err.title = "Current user is not the owner";
+    //     err.errors = ["Current user is not the owner"];
+    //     return next(err);
+    //   }
+    // }
+
+
+
+    })
 
 
 
