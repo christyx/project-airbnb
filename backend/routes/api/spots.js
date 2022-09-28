@@ -70,7 +70,13 @@ router.post(
       const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price});
 
       return res.json(spot)
-    } else return res.json({});
+    } else {
+      const err = new Error('No user loged in');
+      err.status = 400;
+      err.title = "No user loged in";
+      err.errors = ["No user loged in"];
+      return next(err);
+    };
 
   })
 

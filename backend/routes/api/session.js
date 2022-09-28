@@ -58,7 +58,7 @@ router.delete(
 router.get(
   '/',
   restoreUser,
-  (req, res) => {
+  (req, res, next) => {
     const { user } = req;
     const { token } = req.cookies;
     if (user) {
@@ -69,7 +69,13 @@ router.get(
         email: user.email,
         token
       });
-    } else return res.json({});
+    } else {
+          const err = new Error('No user loged in');
+          err.status = 400;
+          err.title = "No user loged in";
+          err.errors = ["No user loged in"];
+          return next(err);
+    }
   }
 );
 
