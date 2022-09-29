@@ -185,7 +185,7 @@ router.get(
     });
 
 
-    if(!spots) {
+    if (!spots) {
       const err = new Error('The provided spot id does not exist');
       err.status = 404;
       err.title = "The provided spot id does not exist";
@@ -194,18 +194,65 @@ router.get(
     }
 
     const Owner = await User.findOne({
-      where: {id: spots.ownerId},
+      where: { id: spots.ownerId },
       attributes: ["id", "firstName", "lastName"]
     })
 
-   let spotsWithOwner = [];
-      spotsWithOwner.push(spots.toJSON())
+    let spotsWithOwner = [];
+    spotsWithOwner.push(spots.toJSON())
 
     spotsWithOwner.forEach(spot => {
-        spot.Owner = Owner
-        delete spot.User
+      spot.Owner = Owner
+      delete spot.User
     })
     return res.json(spotsWithOwner)
-})
+  })
+
+router.put(
+  '/:spotId', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const { spotId } = req.params
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const spot = await Spot.findByPk(spotId)
+    if (!spot) {
+      const err = new Error('The provided spot id does not exist');
+      err.status = 404;
+      err.title = "The provided spot id does not exist";
+      err.errors = ["The provided spot id does not exist"];
+      return next(err);
+    }
+    const existLats = await Spot.findAll({ where: { lat } });
+
+    if (existLats) {
+      existLats.forEach(existLat => {
+        if (existLat.lng === lng) {
+          const err = new Error('Lat&lng failed');
+          err.status = 400;
+          err.title = "Lat&lng combination already exists";
+          err.errors = ["Lat&lng combination already exists"];
+          return next(err);
+        }
+      })
+    }
+
+    if (spot.ownerId === user.id) {
+      await spot.update(
+        { address, city, state, country, lat, lng, name, description, price }
+      )
+      return res.json(spot)
+    } else {
+      const err = new Error('Current user is not the owner');
+      err.status = 400;
+      err.title = "Current user is not the owner";
+      err.errors = ["Current user is not the owner"];
+      return next(err);
+    }
+  })
+
+
+
+
+
+
 
 module.exports = router;
