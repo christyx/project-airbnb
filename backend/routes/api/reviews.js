@@ -1,6 +1,8 @@
 const express = require('express');
 const { User, Spot, Review, SpotImage, ReviewImage, Sequelize } = require('../../db/models');
-const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, restoreUser, requireAuthRole } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 router.post(
@@ -45,49 +47,52 @@ router.post(
   });
 
 router.get(
-  '/current', restoreUser, async (req, res, next) => {
+  '/current', requireAuth, async (req, res, next) => {
     const { user } = req;
 
-    if (user) {
-      const reviews = await Review.findAll({
-        attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
-        where: { userId: user.id },
-        group: ['Spot.id', 'Review.id'],
-        include: [
-          {
-            model: User,
-            attributes: ["id", "firstName", "lastName"]
+    const reviewsAll = await Review.findAll({
+      // attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
+       where: { userId: user.id },
+       //group: ['Spot.id', 'Review.id', 'User.id'],
+      include: [
+        {
+          model: User,
+          attributes: ["id", "firstName", "lastName"]
+        },
+        {
+          model: Spot,
+          attributes: {
+            // include: [
+            //   [Sequelize.fn("COUNT", Sequelize.col("review")), "numReviews"],
+            // ],
+            exclude: ["description", "createdAt", "updatedAt"]
           },
-          {
-            model: Spot,
-            attributes: {
-              // include: [
-              //   [Sequelize.fn("COUNT", Sequelize.col("review")), "numReviews"],
-              // ],
-              exclude: ["description", "createdAt", "updatedAt"]
-            },
-          },
-          // {
-          //   model: ReviewImage,
-          //   //attributes: ["id", "reviewId"]
-          // }
-          // {
-          //   model: ReviewImage,
-          // }
-        ],
-      });
-      return res.json(reviews)
+        },
+        {
+          model: ReviewImage,
+          //where: {reviewId: Review.id}
+          attributes: ["id", "url"]
+        }
+      ],
+    });
+
+    let Reviews = []
+    reviewsAll.forEach(review => {
+      Reviews.push(review.toJSON())
+    })
+
+    Reviews.forEach(review => {
+      review.ReviewImages.forEach(image => {
+          review.Spot.previewImage = image.url
+
+      })
+      if(!review.ReviewImages[0]) {
+        review.Spot.previewImage = 'no preview image'
+          }
+      })
 
 
-
-
-    } else {
-      const err = new Error('No user loged in');
-      err.status = 400;
-      err.title = "No user loged in";
-      err.errors = ["No user loged in"];
-      return next(err);
-    }
+    return res.json({Reviews})
   })
 
 

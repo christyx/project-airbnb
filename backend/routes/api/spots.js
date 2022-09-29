@@ -11,7 +11,7 @@ const validateSpotCreate = [
     .withMessage('Street address is required'),
   check('city')
     .exists({ checkFalsy: true })
-   // .isLength({ min: 4 })
+    // .isLength({ min: 4 })
     .withMessage('City is required'),
   check('state')
     .exists({ checkFalsy: true })
@@ -77,7 +77,7 @@ router.get(
       delete spot.SpotImages
     })
 
-    return res.json({Spots})
+    return res.json({ Spots })
   }
 );
 
@@ -92,19 +92,19 @@ router.post(
         if (existLat.lng === lng) {
           res.status(400)
           return res.json({
-          message: "Lat&lng combination already exists",
-          statusCode: 400
+            message: "Lat&lng combination already exists",
+            statusCode: 400
           })
         }
       })
     }
-      const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price });
-      res.status(201)
-      return res.json(spot)
+    const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price });
+    res.status(201)
+    return res.json(spot)
   });
 
 router.post(
-  '/:spotId/images',requireAuth, async (req, res, next) => {
+  '/:spotId/images', requireAuth, async (req, res, next) => {
     const { user } = req;
     const { spotId } = req.params;
     const { url, preview } = req.body;
@@ -114,8 +114,8 @@ router.post(
     if (!spot) {
       res.status(404)
       return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
+        message: "Spot couldn't be found",
+        statusCode: 404
       })
     }
 
@@ -136,41 +136,41 @@ router.get(
   '/current', requireAuth, async (req, res, next) => {
     const { user } = req;
 
-      const spotsAll = await Spot.findAll({
-        attributes: {
-          include: [
-            [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
-          ]
-        },
-        where: { ownerId: user.id },
-        group: ['Spot.id', 'SpotImages.id'], //need more info
+    const spotsAll = await Spot.findAll({
+      attributes: {
         include: [
-          {
-            model: SpotImage,
-          },
-          {
-            model: Review,
-            attributes: []
-          }],
-      });
+          [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
+        ]
+      },
+      where: { ownerId: user.id },
+      group: ['Spot.id', 'SpotImages.id'], //need more info
+      include: [
+        {
+          model: SpotImage,
+        },
+        {
+          model: Review,
+          attributes: []
+        }],
+    });
 
-      let Spots = [];
-      spotsAll.forEach(spot => {
-        Spots.push(spot.toJSON())
-      })
+    let Spots = [];
+    spotsAll.forEach(spot => {
+      Spots.push(spot.toJSON())
+    })
 
-      Spots.forEach(spot => {
-        spot.SpotImages.forEach(image => {
-          if (image.preview === true) {
-            spot.previewImage = image.url
-          }
-        })
-        if (!spot.previewImage) {
-          spot.previewImage = 'no preview image'
+    Spots.forEach(spot => {
+      spot.SpotImages.forEach(image => {
+        if (image.preview === true) {
+          spot.previewImage = image.url
         }
-        delete spot.SpotImages
       })
-      return res.json({Spots})
+      if (!spot.previewImage) {
+        spot.previewImage = 'no preview image'
+      }
+      delete spot.SpotImages
+    })
+    return res.json({ Spots })
   }
 );
 
@@ -205,9 +205,9 @@ router.get(
     if (!spots) {
       res.status(404)
       return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
-    })
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
     }
 
     const Owner = await User.findOne({
@@ -234,9 +234,9 @@ router.put(
     if (!spot) {
       res.status(404)
       return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404
-    })
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
     }
     const existLats = await Spot.findAll({ where: { lat } });
 
@@ -280,55 +280,55 @@ router.post(
       return next(err);
     }
 
-      const existedReview = await Review.findOne({
-        where: { spotId, userId: user.id }
-      })
-      if (existedReview) {
-        const err = new Error('A review already exists for the spot from the current user');
-        err.status = 403;
-        err.title = "A review already exists for the spot from the current user";
-        err.errors = ["A review already exists for the spot from the current user"];
-        return next(err);
-      }
-      const newReview = await Review.create({
-        spotId,
-        userId: user.id,
-        review,
-        stars
-      })
+    const existedReview = await Review.findOne({
+      where: { spotId, userId: user.id }
+    })
+    if (existedReview) {
+      const err = new Error('A review already exists for the spot from the current user');
+      err.status = 403;
+      err.title = "A review already exists for the spot from the current user";
+      err.errors = ["A review already exists for the spot from the current user"];
+      return next(err);
+    }
+    const newReview = await Review.create({
+      spotId,
+      userId: user.id,
+      review,
+      stars
+    })
 
-      const theNewReview = await Review.findOne({
-        attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
-        where: { spotId, userId: user.id }
-      })
-      return res.json(theNewReview)
+    const theNewReview = await Review.findOne({
+      attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
+      where: { spotId, userId: user.id }
+    })
+    return res.json(theNewReview)
   })
 
-  router.delete(
-    '/:spotId', requireAuth, async (req, res, next) => {
-      const { spotId } = req.params;
-      const { user } = req;
-      const spot = await Spot.findByPk(spotId)
+router.delete(
+  '/:spotId', requireAuth, async (req, res, next) => {
+    const { spotId } = req.params;
+    const { user } = req;
+    const spot = await Spot.findByPk(spotId)
 
-      if (!spot) {
-        res.status(404)
-        return res.json({
+    if (!spot) {
+      res.status(404)
+      return res.json({
         message: "Spot couldn't be found",
         statusCode: 404
-        })
-      }
+      })
+    }
 
-      if (spot.ownerId === user.id) {
-         await spot.destroy()
-         res.status(200)
-         return res.json({
+    if (spot.ownerId === user.id) {
+      await spot.destroy()
+      res.status(200)
+      return res.json({
         "message": "Successfully deleted",
         "statusCode": 200
       })
-      } else {
-        await requireAuthRole(req, res, next);
-      }
-    })
+    } else {
+      await requireAuthRole(req, res, next);
+    }
+  })
 
 
 
