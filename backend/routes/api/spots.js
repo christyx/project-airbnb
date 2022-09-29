@@ -250,54 +250,52 @@ router.put(
     }
   });
 
-  router.post(
-    '/:spotId/reviews', restoreUser, async (req, res, next) => {
-      const { user } = req;
-      const { spotId } = req.params;
-      const { review, stars } = req.body;
+router.post(
+  '/:spotId/reviews', restoreUser, async (req, res, next) => {
+    const { user } = req;
+    const { spotId } = req.params;
+    const { review, stars } = req.body;
 
-      const spot = await Spot.findByPk(spotId)
+    const spot = await Spot.findByPk(spotId)
 
-      if (!spot) {
-        const err = new Error('The spot does not exist');
-        err.status = 404;
-        err.title = "The spot does not exist";
-        err.errors = ["The spot does not exist"];
+    if (!spot) {
+      const err = new Error('The spot does not exist');
+      err.status = 404;
+      err.title = "The spot does not exist";
+      err.errors = ["The spot does not exist"];
+      return next(err);
+    }
+
+    if (user) {
+      const existedReview = await Review.findOne({
+        where: { spotId, userId: user.id }
+      })
+      if (existedReview) {
+        const err = new Error('A review already exists for the spot from the current user');
+        err.status = 403;
+        err.title = "A review already exists for the spot from the current user";
+        err.errors = ["A review already exists for the spot from the current user"];
         return next(err);
       }
+      const newReview = await Review.create({
+        spotId,
+        userId: user.id,
+        review,
+        stars
+      })
 
-      if (user) {
-        const existedReview = await Review.findOne({
-          where: {spotId, userId: user.id}
-        })
-        if(existedReview) {
-          const err = new Error('A review already exists for the spot from the current user');
-          err.status = 403;
-          err.title = "A review already exists for the spot from the current user";
-          err.errors = ["A review already exists for the spot from the current user"];
-          return next(err);
-        }
-        const newReview = await Review.create({
-            spotId,
-            userId: user.id,
-            review,
-            stars
-          })
-
-        const theNewReview = await Review.findOne({
-            attributes: ["id", "userId", "spotId", "review", "stars", "createdAt","updatedAt"],
-            where: {spotId, userId: user.id}
-          })
-        return res.json(theNewReview)
-      } else {
-        const err = new Error('No user loged in');
-        err.status = 400;
-        err.title = "No user loged in";
-        err.errors = ["No user loged in"];
-        return next(err);
-      };
-    })
-
-
+      const theNewReview = await Review.findOne({
+        attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
+        where: { spotId, userId: user.id }
+      })
+      return res.json(theNewReview)
+    } else {
+      const err = new Error('No user loged in');
+      err.status = 400;
+      err.title = "No user loged in";
+      err.errors = ["No user loged in"];
+      return next(err);
+    };
+  })
 
 module.exports = router;
