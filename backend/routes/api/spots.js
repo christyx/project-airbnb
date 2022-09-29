@@ -240,18 +240,20 @@ router.put(
     }
     const existLats = await Spot.findAll({ where: { lat } });
 
-    if (existLats) {
-      existLats.forEach(existLat => {
-        if (existLat.lng === lng) {
-          res.status(400)
-          return res.json({
-          message: "Lat&lng combination already exists",
-          statusCode: 400
-          })
-        }
-      })
-    }
+    // if (existLats) {
+    //   existLats.forEach(existLat => {
+    //     if (existLat.lng === lng) {
 
+    //       if(existLat.lng.toString() === spotId) {
+    //         res.status(400)
+    //         return res.json({
+    //         message: "Lat&lng combination already exists",
+    //         statusCode: 400
+    //       })
+    //     }
+    //     }
+    //   })
+    // } else
     if (spot.ownerId === user.id) {
       await spot.update(
         { address, city, state, country, lat, lng, name, description, price }
