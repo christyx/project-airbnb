@@ -14,21 +14,21 @@ router.post(
     const review = await Review.findByPk(reviewId);
 
     if (!review) {
-      const err = new Error('The review does not exist');
-      err.status = 404;
-      err.title = "The review does not exist";
-      err.errors = ["The review does not exist"];
-      return next(err);
+      res.status(404)
+      return res.json({
+        message: "Review couldn't be found",
+        statusCode: 404
+      })
     }
 
     const allImages = await ReviewImage.findAll({ where: { reviewId } })
 
-    if (allImages.length > 5) {
-      const err = new Error('Maximum number of images have been added for the review');
-      err.status = 403;
-      err.title = "Maximum number of images have been added for the review"
-      err.errors = ["Maximum number of images have been added for the review"];
-      return next(err);
+    if (allImages.length > 3) {
+      res.status(403)
+      return res.json({
+        message: "Maximum number of images for this resource was reached",
+        statusCode: 403
+      })
     }
 
     if (review.userId === user.id) {
@@ -38,11 +38,7 @@ router.post(
         url
       })
     } else {
-      const err = new Error('Current user is not the owner');
-      err.status = 400;
-      err.title = "Current user is not the owner";
-      err.errors = ["Current user is not the owner"];
-      return next(err);
+      await requireAuthRole(req, res, next);
     }
   });
 
@@ -51,9 +47,8 @@ router.get(
     const { user } = req;
 
     const reviewsAll = await Review.findAll({
-      // attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
-       where: { userId: user.id },
-       //group: ['Spot.id', 'Review.id', 'User.id'],
+      where: { userId: user.id },
+      //group: ['Spot.id', 'Review.id', 'User.id'],
       include: [
         {
           model: User,
@@ -62,15 +57,11 @@ router.get(
         {
           model: Spot,
           attributes: {
-            // include: [
-            //   [Sequelize.fn("COUNT", Sequelize.col("review")), "numReviews"],
-            // ],
             exclude: ["description", "createdAt", "updatedAt"]
           },
         },
         {
           model: ReviewImage,
-          //where: {reviewId: Review.id}
           attributes: ["id", "url"]
         }
       ],
@@ -83,22 +74,52 @@ router.get(
 
     Reviews.forEach(review => {
       review.ReviewImages.forEach(image => {
-          review.Spot.previewImage = image.url
-
+        review.Spot.previewImage = image.url
       })
-      if(!review.ReviewImages[0]) {
+      if (!review.ReviewImages[0]) {
         review.Spot.previewImage = 'no preview image'
-          }
-      })
-
-
-    return res.json({Reviews})
+      }
+    })
+    return res.json({ Reviews })
   })
 
 
+  const validateReviewCreate = [
+    check('review')
+      .exists({ checkFalsy: true })
+      .withMessage('Review text is required'),
+    check('stars')
+      .exists({ checkFalsy: true })
+      .custom((value) => value <= 5 && value >= 1)
+      .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+  ];
 
+router.put(
+  '/:reviewId', requireAuth, validateReviewCreate, async (req, res, next) => {
+    const { user } = req;
+    const { reviewId } = req.params;
+    const { review, stars } = req.body;
 
+    const reviewById = await Review.findByPk(reviewId)
 
+    if (!reviewById) {
+      res.status(404)
+      return res.json({
+        message: "Review couldn't be found",
+        statusCode: 404
+      })
+    }
+
+    if (reviewById.userId === user.id) {
+      await reviewById.update(
+        { review, stars }
+      )
+      return res.json(reviewById)
+    } else {
+      await requireAuthRole(req, res, next);
+    }
+  });
 
 
 

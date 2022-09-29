@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage, Sequelize } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser, requireAuthRole } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -264,8 +264,19 @@ router.put(
     }
   });
 
+  const validateReviewCreate = [
+    check('review')
+      .exists({ checkFalsy: true })
+      .withMessage('Review text is required'),
+    check('stars')
+      .exists({ checkFalsy: true })
+      .custom((value) => value <= 5 && value >= 1)
+      .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+  ];
+
 router.post(
-  '/:spotId/reviews', requireAuth, async (req, res, next) => {
+  '/:spotId/reviews', requireAuth, validateReviewCreate, async (req, res, next) => {
     const { user } = req;
     const { spotId } = req.params;
     const { review, stars } = req.body;
@@ -273,22 +284,22 @@ router.post(
     const spot = await Spot.findByPk(spotId)
 
     if (!spot) {
-      const err = new Error('The spot does not exist');
-      err.status = 404;
-      err.title = "The spot does not exist";
-      err.errors = ["The spot does not exist"];
-      return next(err);
+      res.status(404)
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
     }
 
     const existedReview = await Review.findOne({
       where: { spotId, userId: user.id }
     })
     if (existedReview) {
-      const err = new Error('A review already exists for the spot from the current user');
-      err.status = 403;
-      err.title = "A review already exists for the spot from the current user";
-      err.errors = ["A review already exists for the spot from the current user"];
-      return next(err);
+      res.status(403)
+      return res.json({
+        message: "User already has a review for this spot",
+        statusCode: 403
+      })
     }
     const newReview = await Review.create({
       spotId,
@@ -301,6 +312,7 @@ router.post(
       attributes: ["id", "userId", "spotId", "review", "stars", "createdAt", "updatedAt"],
       where: { spotId, userId: user.id }
     })
+    res.status(201)
     return res.json(theNewReview)
   })
 
@@ -330,6 +342,35 @@ router.delete(
     }
   })
 
+
+router.get(
+  '/:spotId/reviews', async (req, res, next) => {
+    const { spotId } = req.params;
+
+    const spot = await Spot.findByPk(spotId)
+    if (!spot) {
+      res.status(404)
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
+    }
+
+    const Reviews = await Review.findAll({
+      where: { spotId },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "firstName", "lastName"]
+        },
+        {
+          model: ReviewImage,
+          attributes: ["id", "url"]
+        }
+      ]
+    })
+    return res.json({Reviews})
+  })
 
 
 module.exports = router;
