@@ -168,7 +168,7 @@ router.get(
           [Sequelize.fn("AVG", Sequelize.col("stars")), "avgStarRating"]
         ]
       },
-      group: ['Spot.id', 'SpotImages.id'], //need more info
+      group: ['Spot.id', 'SpotImages.id', 'User.id'], //need more info
       include: [
         {
           model: SpotImage,
