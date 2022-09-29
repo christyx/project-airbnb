@@ -84,16 +84,16 @@ router.get(
   })
 
 
-  const validateReviewCreate = [
-    check('review')
-      .exists({ checkFalsy: true })
-      .withMessage('Review text is required'),
-    check('stars')
-      .exists({ checkFalsy: true })
-      .custom((value) => value <= 5 && value >= 1)
-      .withMessage('Stars must be an integer from 1 to 5'),
-    handleValidationErrors
-  ];
+const validateReviewCreate = [
+  check('review')
+    .exists({ checkFalsy: true })
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .custom((value) => value <= 5 && value >= 1)
+    .withMessage('Stars must be an integer from 1 to 5'),
+  handleValidationErrors
+];
 
 router.put(
   '/:reviewId', requireAuth, validateReviewCreate, async (req, res, next) => {
@@ -121,6 +121,32 @@ router.put(
     }
   });
 
+
+router.delete(
+  '/:reviewId', requireAuth, async (req, res, next) => {
+    const { reviewId } = req.params;
+    const { user } = req;
+    const review = await Review.findByPk(reviewId)
+
+    if (!review) {
+      res.status(404)
+      return res.json({
+        message: "Review couldn't be found",
+        statusCode: 404
+      })
+    }
+
+    if (review.userId === user.id) {
+      await review.destroy()
+      res.status(200)
+      return res.json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+      })
+    } else {
+      await requireAuthRole(req, res, next);
+    }
+  })
 
 
 
