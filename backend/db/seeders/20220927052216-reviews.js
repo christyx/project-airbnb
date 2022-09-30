@@ -54,7 +54,7 @@ module.exports = {
        {
         spotId: 4,
         userId: 1,
-        review: "f you are looking for a mediocre, subpar, and non memorable experience then you need to find somewhere else! THIS CABIN IS AWESOME IN EVERY WAY!",
+        review: "If you are looking for a mediocre, subpar, and non memorable experience then you need to find somewhere else! THIS CABIN IS AWESOME IN EVERY WAY!",
         stars: 5
        },
        {
