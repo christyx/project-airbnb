@@ -1,7 +1,7 @@
 const express = require('express');
 const { Booking, User, Spot, Review, SpotImage, ReviewImage, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser, requireAuthRole } = require('../../utils/auth');
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
@@ -40,16 +40,194 @@ const validateSpotCreate = [
   handleValidationErrors
 ];
 
+// router.get(
+//   '/', async (req, res) => {
+
+//     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+//     if (!page) page = 1;
+//     if (!size) size = 20;
+
+//     page = parseInt(page);
+//     size = parseInt(size);
+
+
+//     if (page >= 1 && size >= 1) {
+//       query.limit = size;
+//       offset = size * (page - 1);
+//     }
+
+//     const spotsLists = await Spot.findAll({
+//       attributes: {
+//         include: [
+//           [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
+//         ]
+//       },
+//       group: ['Spot.id', 'SpotImages.id'], //need more info
+//       include: [
+//         {
+//           model: SpotImage,
+//         },
+//         {
+//           model: Review,
+//           attributes: []
+//         }],
+//     });
+
+//     let Spots = [];
+//     spotsLists.forEach(spot => {
+//       Spots.push(spot.toJSON())
+//     })
+
+//     Spots.forEach(spot => {
+//       spot.SpotImages.forEach(image => {
+//         if (image.preview === true) {
+//           spot.previewImage = image.url
+//         }
+//       })
+//       if (!spot.previewImage) {
+//         spot.previewImage = 'no preview image'
+//       }
+//       delete spot.SpotImages
+//     })
+
+
+//     return res.json({ Spots, page, size })
+//   }
+// );
+
+
+// router.get(
+//   '/', async (req, res) => {
+
+//     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+//     if (!page) page = 1;
+//     if (!size) size = 20;
+
+//     page = parseInt(page);
+//     size = parseInt(size);
+
+
+//     // if (page >= 1 && size >= 1) {
+//     //   query.limit = size;
+//     //   offset = size * (page - 1);
+//     // }
+
+//     const Spots = await Spot.findAll({
+//       attributes: {
+//         include: [
+//           [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
+//         ]
+//       },
+//       group: ['Spot.id'], //need more info
+//       include: [
+//         {
+//           model: SpotImage,
+//         },
+//         {
+//           model: Review,
+//           attributes: []
+//         }],
+//     });
+
+
+//     const spots = await Spot.findAll()
+//     const Spotss = spots.forEach(spot => {
+//     spot.dataValues.something = "ddd"
+//     })
+//     // let Spots = [];
+//     // spotsLists.forEach(spot => {
+//     //   Spots.push(spot.toJSON())
+//     // })
+
+//     // Spots.forEach(spot => {
+//     //   //spot.SpotImages.forEach(image => {
+//     //     //if (image.preview === true) {
+//     //       const spott = spot.toJSON()
+//     //       spott.previewImage = '1'
+//     //   //  }
+//     //   //})
+//     //   // if (!spot.previewImage) {
+//     //   //   spot.previewImage = 'no preview image'
+//     //   // }
+//     //   delete spot.SpotImages
+//    // })
+
+
+//     return res.json(Spotss)
+
+//   });
+const validateGetAllSpotsQueries = [
+  query("page")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Page must be greater than or equal to 0"),
+  query("size")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Size must be greater than or equal to 0"),
+  query("maxLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid"),
+  query("minLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum latitude is invalid"),
+  query("maxLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum longitude is invalid"),
+  query("minLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum longitude is invalid"),
+  query("maxPrice")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Size must be greater than or equal to 0"),
+  query("minPrice")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Size must be greater than or equal to 0"),
+  handleValidationErrors,
+];
+
+
+
 router.get(
-  '/', async (req, res) => {
+  '/', validateGetAllSpotsQueries, async (req, res) => {
+
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    if (!page) page = 1;
+    if (!size) size = 20;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    let limit = size;
+    let offset = size * (page - 1);
+
+    const where = {}
+
+    if (maxLat) where.lat = { [Op.lte]: Number(maxLat) };
+    if (minLat) where.lat = { [Op.gte]: Number(minLat) };
+    if (maxLng) where.lng = { [Op.lte]: Number(maxLat) };
+    if (minLng) where.lng = { [Op.gte]: Number(minLng) };
+    if (maxPrice) where.price = { [Op.lte]: Number(maxPrice) };
+    if (minPrice) where.price = { [Op.gte]: Number(minPrice) };
 
     const spotsLists = await Spot.findAll({
-      attributes: {
-        include: [
-          [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
-        ]
-      },
-      group: ['Spot.id', 'SpotImages.id'], //need more info
+      // attributes: {
+      //   include: [
+      //     [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
+      //   ]
+      // },
+      limit,
+      offset,
+      group: ['Spot.id'], //need more info
       include: [
         {
           model: SpotImage,
@@ -65,7 +243,31 @@ router.get(
       Spots.push(spot.toJSON())
     })
 
+    const allreviews = await Review.findAll()
     Spots.forEach(spot => {
+
+
+      const thisId = spot.id
+
+      let reviews = [];
+      allreviews.forEach(review => {
+        if (review.spotId === thisId) {
+          reviews.push(review.toJSON())
+        }
+      })
+
+      let count = reviews.length
+      let sum = 0
+      reviews.forEach(review => {
+        sum += review.stars
+      })
+      spot.avgRating = sum / count
+
+
+
+
+
+
       spot.SpotImages.forEach(image => {
         if (image.preview === true) {
           spot.previewImage = image.url
@@ -76,10 +278,11 @@ router.get(
       }
       delete spot.SpotImages
     })
-
-    return res.json({ Spots })
+    return res.json({ Spots, page, size })
   }
 );
+
+
 
 router.post(
   '/', requireAuth, validateSpotCreate, async (req, res, next) => {
@@ -438,7 +641,7 @@ router.post(
     }
 
     const currentBooking = await Booking.findAll({
-      where: {spotId}
+      where: { spotId }
     })
 
     let allBookings = [];
@@ -450,8 +653,8 @@ router.post(
       const start = Date.parse(booking.startDate)
       const end = Date.parse(booking.endDate)
 
-      if(start <= parsedStart < end && (parsedEnd <= end && parsedEnd > start)) {
-         res.status(403)
+      if (start <= parsedStart < end && (parsedEnd <= end && parsedEnd > start)) {
+        res.status(403)
         return res.json({
           message: "Sorry, this spot is already booked for the specified dates",
           statusCode: 403,
@@ -466,7 +669,7 @@ router.post(
     const newBooking = await Booking.create({ spotId, userId: user.id, startDate, endDate })
 
     return res.json(newBooking)
-  
+
   })
 
 
