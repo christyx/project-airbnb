@@ -2,199 +2,8 @@ const express = require('express');
 const { Booking, User, Spot, Review, SpotImage, ReviewImage, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser, requireAuthRole } = require('../../utils/auth');
 const { check, query } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { handleValidationErrors, validateSpotCreate, validateGetAllSpotsQueries, validateReviewCreate } = require('../../utils/validation');
 const router = express.Router();
-
-const validateSpotCreate = [
-  check('address')
-    .exists({ checkFalsy: true })
-    .withMessage('Street address is required'),
-  check('city')
-    .exists({ checkFalsy: true })
-    // .isLength({ min: 4 })
-    .withMessage('City is required'),
-  check('state')
-    .exists({ checkFalsy: true })
-    .withMessage('State is required'),
-  check('country')
-    .exists({ checkFalsy: true })
-    .withMessage('Country is required'),
-  check('lat')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Latitude is not valid'),
-  check('lng')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Longitude is not valid'),
-  check('name')
-    .exists({ checkFalsy: true })
-    .isLength({ max: 50 })
-    .withMessage('Name must be less than 50 characters'),
-  check('description')
-    .exists({ checkFalsy: true })
-    .withMessage('Description is required'),
-  check('price')
-    .exists({ checkFalsy: true })
-    .withMessage('Price per day is required'),
-  handleValidationErrors
-];
-
-// router.get(
-//   '/', async (req, res) => {
-
-//     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-
-//     if (!page) page = 1;
-//     if (!size) size = 20;
-
-//     page = parseInt(page);
-//     size = parseInt(size);
-
-
-//     if (page >= 1 && size >= 1) {
-//       query.limit = size;
-//       offset = size * (page - 1);
-//     }
-
-//     const spotsLists = await Spot.findAll({
-//       attributes: {
-//         include: [
-//           [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
-//         ]
-//       },
-//       group: ['Spot.id', 'SpotImages.id'], //need more info
-//       include: [
-//         {
-//           model: SpotImage,
-//         },
-//         {
-//           model: Review,
-//           attributes: []
-//         }],
-//     });
-
-//     let Spots = [];
-//     spotsLists.forEach(spot => {
-//       Spots.push(spot.toJSON())
-//     })
-
-//     Spots.forEach(spot => {
-//       spot.SpotImages.forEach(image => {
-//         if (image.preview === true) {
-//           spot.previewImage = image.url
-//         }
-//       })
-//       if (!spot.previewImage) {
-//         spot.previewImage = 'no preview image'
-//       }
-//       delete spot.SpotImages
-//     })
-
-
-//     return res.json({ Spots, page, size })
-//   }
-// );
-
-
-// router.get(
-//   '/', async (req, res) => {
-
-//     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-
-//     if (!page) page = 1;
-//     if (!size) size = 20;
-
-//     page = parseInt(page);
-//     size = parseInt(size);
-
-
-//     // if (page >= 1 && size >= 1) {
-//     //   query.limit = size;
-//     //   offset = size * (page - 1);
-//     // }
-
-//     const Spots = await Spot.findAll({
-//       attributes: {
-//         include: [
-//           [Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"],
-//         ]
-//       },
-//       group: ['Spot.id'], //need more info
-//       include: [
-//         {
-//           model: SpotImage,
-//         },
-//         {
-//           model: Review,
-//           attributes: []
-//         }],
-//     });
-
-
-//     const spots = await Spot.findAll()
-//     const Spotss = spots.forEach(spot => {
-//     spot.dataValues.something = "ddd"
-//     })
-//     // let Spots = [];
-//     // spotsLists.forEach(spot => {
-//     //   Spots.push(spot.toJSON())
-//     // })
-
-//     // Spots.forEach(spot => {
-//     //   //spot.SpotImages.forEach(image => {
-//     //     //if (image.preview === true) {
-//     //       const spott = spot.toJSON()
-//     //       spott.previewImage = '1'
-//     //   //  }
-//     //   //})
-//     //   // if (!spot.previewImage) {
-//     //   //   spot.previewImage = 'no preview image'
-//     //   // }
-//     //   delete spot.SpotImages
-//    // })
-
-
-//     return res.json(Spotss)
-
-//   });
-const validateGetAllSpotsQueries = [
-  query("page")
-    .optional()
-    .isInt({ min: 0 })
-    .withMessage("Page must be greater than or equal to 0"),
-  query("size")
-    .optional()
-    .isInt({ min: 0 })
-    .withMessage("Size must be greater than or equal to 0"),
-  query("maxLat")
-    .optional()
-    .isDecimal()
-    .withMessage("Maximum latitude is invalid"),
-  query("minLat")
-    .optional()
-    .isDecimal()
-    .withMessage("Minimum latitude is invalid"),
-  query("maxLng")
-    .optional()
-    .isDecimal()
-    .withMessage("Maximum longitude is invalid"),
-  query("minLng")
-    .optional()
-    .isDecimal()
-    .withMessage("Minimum longitude is invalid"),
-  query("maxPrice")
-    .optional()
-    .isInt({ min: 0 })
-    .withMessage("Size must be greater than or equal to 0"),
-  query("minPrice")
-    .optional()
-    .isInt({ min: 0 })
-    .withMessage("Size must be greater than or equal to 0"),
-  handleValidationErrors,
-];
-
-
 
 router.get(
   '/', validateGetAllSpotsQueries, async (req, res) => {
@@ -227,7 +36,7 @@ router.get(
       // },
       limit,
       offset,
-      group: ['Spot.id'], //need more info
+      group: ['Spot.id'],
       include: [
         {
           model: SpotImage,
@@ -246,7 +55,6 @@ router.get(
     const allreviews = await Review.findAll()
     Spots.forEach(spot => {
 
-
       const thisId = spot.id
 
       let reviews = [];
@@ -262,12 +70,6 @@ router.get(
         sum += review.stars
       })
       spot.avgRating = sum / count
-
-
-
-
-
-
       spot.SpotImages.forEach(image => {
         if (image.preview === true) {
           spot.previewImage = image.url
@@ -281,7 +83,6 @@ router.get(
     return res.json({ Spots, page, size })
   }
 );
-
 
 
 router.post(
@@ -466,17 +267,6 @@ router.put(
       await requireAuthRole(req, res, next);
     }
   });
-
-const validateReviewCreate = [
-  check('review')
-    .exists({ checkFalsy: true })
-    .withMessage('Review text is required'),
-  check('stars')
-    .exists({ checkFalsy: true })
-    .custom((value) => value <= 5 && value >= 1)
-    .withMessage('Stars must be an integer from 1 to 5'),
-  handleValidationErrors
-];
 
 router.post(
   '/:spotId/reviews', requireAuth, validateReviewCreate, async (req, res, next) => {
@@ -671,8 +461,5 @@ router.post(
     return res.json(newBooking)
 
   })
-
-
-
 
 module.exports = router;
