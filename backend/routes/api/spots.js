@@ -1,7 +1,12 @@
 const express = require('express');
 const { Booking, User, Spot, Review, SpotImage, ReviewImage, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser, requireAuthRole } = require('../../utils/auth');
+<<<<<<< HEAD
 const { validateSpotCreate, validateGetAllSpotsQueries, validateReviewCreate } = require('../../utils/validation');
+=======
+const { check, query } = require('express-validator');
+const { handleValidationErrors, validateSpotCreate, validateGetAllSpotsQueries, validateReviewCreate } = require('../../utils/validation');
+>>>>>>> main
 const router = express.Router();
 
 router.get(
@@ -54,7 +59,6 @@ router.get(
     const allreviews = await Review.findAll()
     Spots.forEach(spot => {
 
-
       const thisId = spot.id
 
       let reviews = [];
@@ -70,7 +74,10 @@ router.get(
         sum += review.stars
       })
       spot.avgRating = sum / count
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
       spot.SpotImages.forEach(image => {
         if (image.preview === true) {
           spot.previewImage = image.url
@@ -85,6 +92,10 @@ router.get(
   }
 );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 router.post(
   '/', requireAuth, validateSpotCreate, async (req, res, next) => {
     const { user } = req;

@@ -142,8 +142,6 @@ if (parsedStart < parsedToday) {
   })
 }
 
-
-
       const spot = await Spot.findByPk(booking.spotId)
       if (booking.userId === user.id || spot.ownerId === user.id) {
         await booking.destroy()
@@ -157,12 +155,6 @@ if (parsedStart < parsedToday) {
       }
 
     })
-
-
-
-
-
-
 
 
 module.exports = router;

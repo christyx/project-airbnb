@@ -1,7 +1,13 @@
 const express = require('express');
 const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
+<<<<<<< HEAD
 const { validateSignup } = require('../../utils/validation');
+=======
+const { check } = require('express-validator');
+const { handleValidationErrors, validateSignup } = require('../../utils/validation');
+
+>>>>>>> main
 const router = express.Router();
 
 router.post(
@@ -31,6 +37,10 @@ router.post(
     }
 
     const user = await User.create({ firstName, lastName, email, username, hashedPassword: password });
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     let token = await setTokenCookie(res, user);
 
     return res.json({
