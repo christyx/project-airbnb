@@ -1,12 +1,8 @@
 const express = require('express');
 const { Booking, User, Spot, Review, SpotImage, ReviewImage, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser, requireAuthRole } = require('../../utils/auth');
-<<<<<<< HEAD
-const { validateSpotCreate, validateGetAllSpotsQueries, validateReviewCreate } = require('../../utils/validation');
-=======
 const { check, query } = require('express-validator');
-const { handleValidationErrors, validateSpotCreate, validateGetAllSpotsQueries, validateReviewCreate } = require('../../utils/validation');
->>>>>>> main
+const { handleValidationErrors, validateSpotCreate, validateGetAllSpotsQueries } = require('../../utils/validation');
 const router = express.Router();
 
 router.get(
@@ -14,8 +10,8 @@ router.get(
 
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
-    if (Number.isNaN(page)) { page = 0 }
-    if (Number.isNaN(size)) { size = 20 }
+    if (!page) page = 1;
+    if (!size) size = 20;
 
     page = parseInt(page);
     size = parseInt(size);
@@ -27,7 +23,7 @@ router.get(
 
     if (maxLat) where.lat = { [Op.lte]: Number(maxLat) };
     if (minLat) where.lat = { [Op.gte]: Number(minLat) };
-    if (maxLng) where.lng = { [Op.lte]: Number(maxLng) };
+    if (maxLng) where.lng = { [Op.lte]: Number(maxLat) };
     if (minLng) where.lng = { [Op.gte]: Number(minLng) };
     if (maxPrice) where.price = { [Op.lte]: Number(maxPrice) };
     if (minPrice) where.price = { [Op.gte]: Number(minPrice) };
@@ -40,7 +36,7 @@ router.get(
       // },
       limit,
       offset,
-      group: ['Spot.id'],
+      group: ['Spot.id'], //need more info
       include: [
         {
           model: SpotImage,
@@ -59,6 +55,7 @@ router.get(
     const allreviews = await Review.findAll()
     Spots.forEach(spot => {
 
+
       const thisId = spot.id
 
       let reviews = [];
@@ -74,10 +71,7 @@ router.get(
         sum += review.stars
       })
       spot.avgRating = sum / count
-<<<<<<< HEAD
 
-=======
->>>>>>> main
       spot.SpotImages.forEach(image => {
         if (image.preview === true) {
           spot.previewImage = image.url
@@ -92,10 +86,8 @@ router.get(
   }
 );
 
-<<<<<<< HEAD
-=======
 
->>>>>>> main
+
 router.post(
   '/', requireAuth, validateSpotCreate, async (req, res, next) => {
     const { user } = req;
@@ -254,21 +246,6 @@ router.put(
       })
     }
     const existLats = await Spot.findAll({ where: { lat } });
-
-    // if (existLats) {
-    //   existLats.forEach(existLat => {
-    //     if (existLat.lng === lng) {
-
-    //       if(existLat.lng.toString() === spotId) {
-    //         res.status(400)
-    //         return res.json({
-    //         message: "Lat&lng combination already exists",
-    //         statusCode: 400
-    //       })
-    //     }
-    //     }
-    //   })
-    // } else
     if (spot.ownerId === user.id) {
       await spot.update(
         { address, city, state, country, lat, lng, name, description, price }
@@ -278,6 +255,17 @@ router.put(
       await requireAuthRole(req, res, next);
     }
   });
+
+const validateReviewCreate = [
+  check('review')
+    .exists({ checkFalsy: true })
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .custom((value) => value <= 5 && value >= 1)
+    .withMessage('Stars must be an integer from 1 to 5'),
+  handleValidationErrors
+];
 
 router.post(
   '/:spotId/reviews', requireAuth, validateReviewCreate, async (req, res, next) => {
@@ -468,7 +456,10 @@ router.post(
     })
 
     const newBooking = await Booking.create({ spotId, userId: user.id, startDate, endDate })
+
     return res.json(newBooking)
+
   })
+
 
 module.exports = router;
