@@ -37,10 +37,10 @@ router.post(
 
     return res.json({
       id: user.id,
-      firstName,
-      lastName,
-      email,
-      username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
       token
     });
   }

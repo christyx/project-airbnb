@@ -18,9 +18,9 @@ module.exports = {
       {
        firstName: "Rick",
        lastName: "Novak",
-       username: "demoRN",
-       hashedPassword: "something",
-       email: "user1@user.io"
+       username: "Demo-lition",
+       hashedPassword: "password",
+       email: "Demo-lition"
      },
      {
       firstName: "Susan",

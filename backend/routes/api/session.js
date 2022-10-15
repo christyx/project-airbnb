@@ -1,5 +1,5 @@
 const express = require('express');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const { check, cookie } = require('express-validator');
 const { handleValidationErrors, validateLogin } = require('../../utils/validation');
@@ -13,6 +13,8 @@ router.post(
     const { credential, password } = req.body;
 
     const user = await User.findOne({ where: { email: credential, hashedPassword: password } });
+    //const user = await User.login({ email, password });
+    console.log(user)
     if (!user) {
       res.status(401)
       return res.json({
@@ -44,16 +46,18 @@ router.delete(
 
 router.get(
   '/',
-  requireAuth,
   (req, res, next) => {
     const { user } = req;
-    return res.json({
+    if (user) {
+      return res.json({
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       username: user.username
-    });
+      })
+     } else
+    return res.json(null)
   }
 );
 
