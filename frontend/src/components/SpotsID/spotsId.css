@@ -13,6 +13,24 @@
 
 .spot-image{
   object-fit: cover;
-  width: 520px;
+  width: 720px;
   border-radius: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  margin-right: 15px;
+}
+
+.spot-location {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+}
+
+.review-user {
+  display: flex;
 }
