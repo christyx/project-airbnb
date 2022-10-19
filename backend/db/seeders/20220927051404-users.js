@@ -16,11 +16,11 @@ module.exports = {
     */
      return await queryInterface.bulkInsert('Users', [
       {
-       firstName: "Rick",
-       lastName: "Novak",
+       firstName: "demo",
+       lastName: "user",
        username: "Demo-lition",
        hashedPassword: "password",
-       email: "Demo-lition"
+       email: "demo@appacademy.io"
      },
      {
       firstName: "Susan",

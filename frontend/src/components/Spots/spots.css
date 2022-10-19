@@ -1,0 +1,36 @@
+.spot-image-preview {
+  object-fit: cover;
+  width: 320px;
+  height: 300px;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.spot-preview {
+  display: flex;
+  justify-content:space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.spot-description {
+  color: black;
+  padding: 5px;
+
+  margin-left: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a:link {
+text-decoration: none;
+}
+
+.spot-price {
+  color: black;
+    padding: 5px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}

@@ -1,0 +1,60 @@
+#logo {
+  width: 140px;
+  margin-left: 20px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #dddddd;
+  padding: 5px;
+}
+
+.right-nav {
+  display: flex;
+  margin-right: 20px;
+  justify-content:space-evenly;
+}
+
+#host {
+  color: black;
+  margin-right: 30px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  padding: 10px;
+  
+}
+#host:hover {
+  border: 1px solid #dddddd;
+  border-radius: 15px;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+
+}
+
+.one-button {
+  margin: 8px;
+  background-color: white;
+  color: #ff5a5f;
+  border: 1px solid #ff5a5f
+}
+
+.one-button:hover {
+  margin: 8px;
+  background-color: #ff5a5f;
+  color: white;
+  border: 1px solid #ff5a5f
+}
+
+.profile-dropdown {
+  color: #ff5a5f;
+}
+
+#openMenu {
+  width: 30px;
+}
