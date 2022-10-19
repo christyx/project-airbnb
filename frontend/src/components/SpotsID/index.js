@@ -14,11 +14,11 @@ function GetSpot() {
   const spot = useSelector((state) =>
     state.spots.singleSpot
   );
-  console.log(spot)
+
   const reviews = useSelector((state) => {
     if (state.reviews.allReviews) return Object.values(state.reviews.allReviews)
   })
-  console.log(reviews)
+
 
   return (
     <div className="single-spot-page">

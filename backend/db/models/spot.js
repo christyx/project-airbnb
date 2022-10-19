@@ -39,13 +39,13 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        len: [10, 1000]
+        len: [2, 1000]
       }
     },
     description: {
       type: DataTypes.STRING,
       validate: {
-        len: [10,1000]
+        len: [2,1000]
       }
     },
     price: DataTypes.DECIMAL

@@ -5,6 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import GetAllSpots from "./components/Spots";
 import GetSpot from './components/SpotsID';
+import CreateSpot from './components/CreateSpot'
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path="/spots/:id">
             <GetSpot />
+          </Route>
+          <Route path="/BecomeAHost">
+            <CreateSpot />
           </Route>
         </Switch>
       )}

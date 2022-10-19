@@ -89,23 +89,29 @@ router.get(
 
 
 router.post(
-  '/', requireAuth, validateSpotCreate, async (req, res, next) => {
+  '/', requireAuth,
+  //validateSpotCreate,
+  async (req, res, next) => {
     const { user } = req;
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
-    const existLats = await Spot.findAll({ where: { lat } });
+    const { address, city, state, country,
+     // lat, lng,
+      name, description, price } = req.body;
+    // const existLats = await Spot.findAll({ where: { lat } });
 
-    if (existLats) {
-      existLats.forEach(existLat => {
-        if (existLat.lng === lng) {
-          res.status(400)
-          return res.json({
-            message: "Lat&lng combination already exists",
-            statusCode: 400
-          })
-        }
-      })
-    }
-    const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price });
+    // if (existLats) {
+    //   existLats.forEach(existLat => {
+    //     if (existLat.lng === lng) {
+    //       res.status(400)
+    //       return res.json({
+    //         message: "Lat&lng combination already exists",
+    //         statusCode: 400
+    //       })
+    //     }
+    //   })
+    // }
+    const spot = await Spot.create({ ownerId: user.id, address, city, state, country,
+      //lat, lng,
+      name, description, price });
     res.status(201)
     return res.json(spot)
   });

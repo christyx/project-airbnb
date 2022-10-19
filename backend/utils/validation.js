@@ -76,14 +76,14 @@ const validateSpotCreate = [
   check('country')
     .exists({ checkFalsy: true })
     .withMessage('Country is required'),
-  check('lat')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Latitude is not valid'),
-  check('lng')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Longitude is not valid'),
+  // check('lat')
+  //   .exists({ checkFalsy: true })
+  //   .isLength({ min: 4 })
+  //   .withMessage('Latitude is not valid'),
+  // check('lng')
+  //   .exists({ checkFalsy: true })
+  //   .isLength({ min: 4 })
+  //   .withMessage('Longitude is not valid'),
   check('name')
     .exists({ checkFalsy: true })
     .isLength({ max: 50 })

@@ -49,6 +49,39 @@ export const getSpotsIdThunk = (id) => async (dispatch) => {
   }
 }
 
+export const createSpotThunk = (spot) => async (dispatch) => {
+
+  const response = await csrfFetch('/api/spots', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(spot)
+  });
+
+  if (response.ok) {
+    const spotData = await response.json()
+
+    const imgRes = await csrfFetch(`api/spots/${spotData.id}/images`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url: spot.imageUrl,
+        //spotId: spotData.id,
+        preview: true
+      })
+    })
+
+    if (imgRes.ok) {
+      const imgData = await imgRes.json()
+      spotData.previewImage = imgData.url;
+      dispatch(createSpot(spotData))
+    }
+  }
+}
+
 
 
 const initialState = { allSpots: {}, singleSpot: {} };
@@ -62,7 +95,9 @@ export default function spotsReducer(state = initialState, action) {
     case GET:
       newState.singleSpot = action.payload
       return newState;
-
+    case CREATE:
+      newState.singleSpot = action.payload
+      return newState;
     default:
       return state
   }
