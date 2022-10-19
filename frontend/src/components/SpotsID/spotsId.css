@@ -1,7 +1,8 @@
 .single-spot-page {
   display: flex;
   flex-direction: column;
-  padding: 70px
+  padding: 70px;
+
 }
 
 .below-name {
@@ -31,6 +32,24 @@
   margin-left: 20px;
 }
 
-.review-user {
+#hosted {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dddddd;
+  width: 800px;
+}
+
+#description {
+  padding-bottom: 20px;
+}
+.review-session {
   display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  border-top: 1px solid #dddddd;
+  width: 800px;
+}
+
+.review-review {
+  padding-bottom: 30px;
+  width: 700px;
 }

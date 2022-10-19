@@ -14,11 +14,11 @@ function GetSpot() {
   const spot = useSelector((state) =>
     state.spots.singleSpot
   );
-console.log(spot)
+  console.log(spot)
   const reviews = useSelector((state) => {
     if (state.reviews.allReviews) return Object.values(state.reviews.allReviews)
   })
-console.log(reviews)
+  console.log(reviews)
 
   return (
     <div className="single-spot-page">
@@ -33,26 +33,29 @@ console.log(reviews)
         <div className="spot-location" >{`${spot?.city}, ${spot?.state}, ${spot?.country}`}</div>
       </div>
       {spot?.SpotImages?.map(image => <img key={image.id} className='spot-image' src={image.url} alt='spot' />)}
-      <h2>Entire Home hosted by {spot?.Owner?.firstName} </h2>
+      <h2 id='hosted'>Entire Home hosted by {spot?.Owner?.firstName} </h2>
 
       <div>{`$${spot?.price} night`}</div>
-      <h3>Description:
-        { spot?.description}</h3>
-      <div className="below-name">
-        <div className="rating">
-          <i class="fa-solid fa-star"></i>
-          <div>{spot?.avgStarRating ? parseFloat(spot.avgStarRating).toFixed(1) : 'no rating yet'}</div>
-        </div>
+      <h3 id='description'>Description:
+        {spot?.description}</h3>
+      <div className="review-session">
+        <div className="below-name">
+          <div className="rating">
+            <i class="fa-solid fa-star"></i>
+            <div>{spot?.avgStarRating ? parseFloat(spot.avgStarRating).toFixed(1) : 'no rating yet'}</div>
+          </div>
 
-        <div className="spot-review" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
-      </div>
-      <div>
-        {reviews?.map(review =>
+          <div className="spot-review" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
+        </div>
         <div>
-          <h3 className="review-user">Reviewed By {review?.User?.firstName}</h3>
-          <div className="review-review">{review?.review}</div>
-        </div>)}
+          {reviews?.map(review =>
+            <div>
+              <h3 className="review-user">Reviewed By {review?.User?.firstName}</h3>
+              <div className="review-review">{review?.review}</div>
+            </div>)}
+        </div>
       </div>
+
     </div>
   )
 }
