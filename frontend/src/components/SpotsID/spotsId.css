@@ -1,0 +1,18 @@
+.single-spot-page {
+  display: flex;
+  flex-direction: column;
+  padding: 70px
+}
+
+.below-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-bottom: 20px;
+}
+
+.spot-image{
+  object-fit: cover;
+  width: 520px;
+  border-radius: 25px;
+}

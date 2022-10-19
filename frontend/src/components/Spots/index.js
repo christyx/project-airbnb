@@ -8,14 +8,15 @@ function GetAllSpots() {
   const dispatch = useDispatch();
   useEffect(() => { dispatch(getSpotsThunk()) }, [dispatch]);
 
-  const spots = useSelector((state) =>
-    Object.values(state.spots.allSpots)
-  );
+  const spots = useSelector((state) => {
+    if (state.spots.allSpots) return Object.values(state.spots.allSpots)
+  })
+
 
   return (
     <div>
       <div className="spot-preview">
-        {spots.map((spot) => {
+        {spots?.map((spot) => {
           return (
             <NavLink key={spot.id} to={`/spots/${spot.id}`}>
               <img src={spot.previewImage}
