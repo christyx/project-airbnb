@@ -15,5 +15,16 @@ This is a clone of AirBnB using Javascript, React and Redux for the frontend, Ex
 
 ## Features
 
-CRUD feature Spots
-CRUD feature Reviews
+1. CRUD feature Spots (Create, Read, Update, AND Delete)
+2. feature Reviews
+
+## Example of the main page
+
+![airbnb-mainpage]
+
+[airbnb-mainpage]: ./mainPage.png
+
+## User Authentication
+- Sign Up
+- Login / logout
+- Demo User Login

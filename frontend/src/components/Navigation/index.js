@@ -40,10 +40,7 @@ function Navigation({ isLoaded }) {
         <div className='nav-buttons'>
           {isLoaded && sessionLinks}
         </div>
-
       </div>
-
-
     </div>
   );
 }
