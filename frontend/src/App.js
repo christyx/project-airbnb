@@ -6,6 +6,8 @@ import LoginFormPage from "./components/LoginFormPage";
 import GetAllSpots from "./components/Spots";
 import GetSpot from './components/SpotsID';
 import CreateSpot from './components/CreateSpot'
+import GetUserSpots from './components/UserSpot'
+import EditUserSpots from './components/EditSpot'
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -26,6 +28,12 @@ function App() {
           </Route>
           <Route path="/login">
             <LoginFormPage />
+          </Route>
+          <Route path="/spots/current">
+            <GetUserSpots />
+          </Route>
+          <Route path="/spots/:id/edit">
+            <EditUserSpots />
           </Route>
           <Route exact path="/">
             <GetAllSpots />

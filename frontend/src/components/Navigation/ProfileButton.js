@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
+  const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -28,6 +30,7 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
+
   return (
     <>
       <button className='one-button' id='openMenu' onClick={openMenu}>
@@ -37,6 +40,11 @@ function ProfileButton({ user }) {
         <ul className="profile-dropdown">
           <li>{user.username}</li>
           <li>{user.email}</li>
+          <li>
+            <NavLink id='manage-spot' to="/spots/current">
+              manage my spots
+            </NavLink>
+            </li>
           <li>
             <button className='one-button' onClick={logout}>Log Out</button>
           </li>

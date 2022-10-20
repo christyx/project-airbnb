@@ -49,7 +49,7 @@ function GetSpot() {
         </div>
         <div>
           {reviews?.map(review =>
-            <div>
+            <div key={review.id}>
               <h3 className="review-user">Reviewed By {review?.User?.firstName}</h3>
               <div className="review-review">{review?.review}</div>
             </div>)}

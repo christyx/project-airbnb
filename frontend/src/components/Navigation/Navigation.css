@@ -24,6 +24,7 @@
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-size: 14px;
   padding: 10px;
+  align-self: center;
 
 }
 #host:hover {
@@ -70,4 +71,9 @@
 .form-each {
   padding: 10px;
 
+}
+
+#manage-spot {
+  color: black;
+  text-decoration:underline;
 }
