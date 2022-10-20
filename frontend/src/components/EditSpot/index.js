@@ -98,7 +98,7 @@ function EditUserSpots() {
 
   const cancelHandler = (e) => {
     e.preventDefault();
-    history.push('/');
+    history.push(`/spots/${id}`);
   };
 
 

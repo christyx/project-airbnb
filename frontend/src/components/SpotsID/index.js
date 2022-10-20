@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getSpotsIdThunk } from "../../store/spots";
+import { useParams, NavLink, useHistory } from "react-router-dom";
+import { getSpotsIdThunk, deleteSpotThunk } from "../../store/spots";
 import { getReviewsThunk } from "../../store/reviews";
 import './spotsId.css';
 
 function GetSpot() {
   const dispatch = useDispatch();
   const { id } = useParams()
+  const history = useHistory()
   useEffect(() => { dispatch(getSpotsIdThunk(id)) }, [dispatch, id]);
   useEffect(() => { dispatch(getReviewsThunk(id)) }, [dispatch, id]);
+
+  const sessionUser = useSelector(state => state.session.user);
 
   const spot = useSelector((state) =>
     state.spots.singleSpot
@@ -19,6 +22,10 @@ function GetSpot() {
     if (state.reviews.allReviews) return Object.values(state.reviews.allReviews)
   })
 
+  const deleteHandler = async (id) => {
+    await dispatch(deleteSpotThunk(id))
+    history.push("/");
+  }
 
   return (
     <div className="single-spot-page">
@@ -28,9 +35,17 @@ function GetSpot() {
           <i class="fa-solid fa-star"></i>
           <div>{spot?.avgStarRating ? parseFloat(spot.avgStarRating).toFixed(1) : 'no rating yet'}</div>
         </div>
-
         <div className="spot-review" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
         <div className="spot-location" >{`${spot?.city}, ${spot?.state}, ${spot?.country}`}</div>
+
+        {sessionUser?.id === spot?.ownerId && (
+          <div>
+            <NavLink to={`/spots/${spot?.id}/edit`}>
+              <button className="one-button">Edit</button>
+            </NavLink>
+            <button className="one-button" onClick={() => deleteHandler(id)}>Delete</button>
+          </div>
+        )}
       </div>
       {spot?.SpotImages?.map(image => <img key={image.id} className='spot-image' src={image.url} alt='spot' />)}
       <h2 id='hosted'>Entire Home hosted by {spot?.Owner?.firstName} </h2>

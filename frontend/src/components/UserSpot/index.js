@@ -1,18 +1,22 @@
 import React, { useEffect,  } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, } from "react-router-dom";
-import { getUserSpotsThunk } from "../../store/spots"
+import { NavLink, useHistory } from "react-router-dom";
+import { getUserSpotsThunk, deleteSpotThunk } from "../../store/spots"
 import './userSpot.css';
 
 function GetUserSpots() {
-
   const dispatch = useDispatch();
+  const history = useHistory()
   useEffect(() => { dispatch(getUserSpotsThunk()) }, [dispatch]);
 
   const spots = useSelector((state) => {
     if (state.spots.allSpots) return Object.values(state.spots.allSpots)
   })
-  console.log(spots)
+
+  const deleteHandler = async (id) => {
+    await dispatch(deleteSpotThunk(id))
+    history.push("/");
+  }
 
   return (
     <div>
@@ -26,10 +30,12 @@ function GetUserSpots() {
               />
               <div className="spot-description">{`${spot.city}, ${spot.state}`}</div>
               <div className="spot-price">{`$${spot.price} night`}</div>
-              <NavLink to={`/spots/${spot.id}/edit`}>
-                Edit
-              </NavLink>
-              <button>delete</button>
+              <div>
+                <NavLink to={`/spots/${spot?.id}/edit`}>
+                  <button className="one-button">Edit</button>
+                </NavLink>
+                <button className="one-button" onClick={() => deleteHandler(spot.id)}>Delete</button>
+              </div>
             </NavLink>
           )
         })

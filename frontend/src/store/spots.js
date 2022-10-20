@@ -36,6 +36,15 @@ export const updateSpot = (spot) => ({
   payload: spot
 })
 
+export const deleteSpotThunk = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}`, {
+    method: "DELETE"
+  })
+  if (response.ok) {
+    dispatch(deleteSpot(id))
+  }
+}
+
 export const getSpotsThunk = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots')
 
