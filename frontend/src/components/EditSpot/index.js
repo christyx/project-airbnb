@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { editUserSpotsThunk, getSpotsIdThunk } from "../../store/spots"
 import './editSpot.css';
 
@@ -31,7 +31,7 @@ function EditUserSpots() {
   const updateName = (e) => setName(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
   const updatePrice = (e) => setPrice(e.target.value);
-  const updateImageUrl = (e) => setImageUrl(e.target.value);
+ // const updateImageUrl = (e) => setImageUrl(e.target.value);
 
   // const sessionUser = useSelector((state) => state.session.user);
   // if (!sessionUser) return <Redirect to="/login" />;
@@ -48,7 +48,7 @@ function EditUserSpots() {
       setName(spotCurrent.name);
       setDescription(spotCurrent.description);
       setPrice(spotCurrent.price);
-      setImageUrl(image);
+      //setImageUrl(image);
     }
   }, [spotCurrent]);
 

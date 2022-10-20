@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect,  } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { NavLink, } from "react-router-dom";
 import { getUserSpotsThunk } from "../../store/spots"
 import './userSpot.css';
 
 function GetUserSpots() {
-  const history = useHistory()
+
   const dispatch = useDispatch();
   useEffect(() => { dispatch(getUserSpotsThunk()) }, [dispatch]);
 
