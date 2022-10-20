@@ -21,7 +21,7 @@ function EditUserSpots() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  //const [imageUrl, setImageUrl] = useState('');
   const [errors, setErrors] = useState([]);
 
   const updateAddress = (e) => setAddress(e.target.value);
@@ -57,7 +57,9 @@ function EditUserSpots() {
     e.preventDefault();
     setErrors([]);
 
-    let spot = { address, city, state, country, name, description, price, imageUrl }
+    let spot = { address, city, state, country, name, description, price,
+      //imageUrl
+    }
 
     if (!spot.address.length) return setErrors(['Please provide an address']);
     if (!spot.city.length) return setErrors(['Please provide a city']);
@@ -66,7 +68,7 @@ function EditUserSpots() {
     if (spot.name.length < 2) return setErrors(['Name must be 2 or more characters']);
     if (!spot.description || spot.description.length < 10) return setErrors(['Please provide a description and it must be 10 or more characters']);
     if (!spot.price || spot.price < 0 || isNaN(spot.price)) return setErrors(['Price must be 1 or higher']);
-    if (!spot.imageUrl.length) return setErrors(['Please provide an image']);
+    //if (!spot.imageUrl.length) return setErrors(['Please provide an image']);
     // if (!spot.imageUrl.includes('.jpg') && !spot.imageUrl.includes('.jpeg') && !spot.imageUrl.includes('.png')) return setErrors(['Image must be in .jpg, .jpeg, or .png format']);
     const payload = {
       address,
@@ -76,7 +78,7 @@ function EditUserSpots() {
       name,
       description,
       price,
-      imageUrl,
+     // imageUrl,
     };
 
     let editSpot = await dispatch(editUserSpotsThunk(payload, id))
@@ -90,7 +92,7 @@ function EditUserSpots() {
       setName(spotCurrent.name);
       setDescription(spotCurrent.description);
       setPrice(spotCurrent.price);
-      setImageUrl(image);
+     // setImageUrl(image);
     }
   }
 
