@@ -78,7 +78,7 @@ function CreateSpot() {
             errors.map((error) => <li key={error}>{error}</li>)}
         </ul>
         <input
-        className="form-input"
+          className="form-input"
           type="text"
           placeholder="address"
           required
@@ -107,7 +107,7 @@ function CreateSpot() {
           placeholder="country"
           required
           value={country}
-          onChange={updateCountry }
+          onChange={updateCountry}
         />
         <input
           className="form-input"
@@ -123,7 +123,7 @@ function CreateSpot() {
           placeholder="description"
           required
           value={description}
-          onChange={updateDescription }
+          onChange={updateDescription}
         />
         <input
           type="text"
@@ -138,12 +138,12 @@ function CreateSpot() {
           type="text"
           placeholder="previewImage"
           required
-          value={imageUrl }
+          value={imageUrl}
           onChange={updateImageUrl}
         />
         <div className="two-button">
           <button className="one-button-create" type="submit">Create A Spot</button>
-        <button className="one-button-create" type="button" onClick={cancelHandler}>Cancel</button>
+          <button className="one-button-create" type="button" onClick={cancelHandler}>Cancel</button>
         </div>
 
       </form>

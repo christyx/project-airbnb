@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, NavLink, useHistory } from "react-router-dom";
 import { getSpotsIdThunk, deleteSpotThunk } from "../../store/spots";
-import { getReviewsThunk } from "../../store/reviews";
+import { getReviewsThunk, deleteReviewThunk } from "../../store/reviews";
 import './spotsId.css';
 
 function GetSpot() {
@@ -22,10 +22,27 @@ function GetSpot() {
     if (state.reviews.allReviews) return Object.values(state.reviews.allReviews)
   })
 
-  const deleteHandler = async (id) => {
+  const deleteSpotHandler = async (id) => {
     await dispatch(deleteSpotThunk(id))
     history.push("/");
   }
+  const deleteReviewHandler = async (reviewId) => {
+    await dispatch(deleteReviewThunk(reviewId, id))
+
+   history.push('/');
+
+  }
+
+  const alreadyHasReview = () => {
+return reviews.map(review => review.userId === sessionUser.id)
+  }
+  const userArr = alreadyHasReview()
+
+  const isOwner = () => {
+    return spot?.Owner?.id === sessionUser?.id
+  }
+  console.log(isOwner())
+
 
   return (
     <div className="single-spot-page">
@@ -43,7 +60,7 @@ function GetSpot() {
             <NavLink to={`/spots/${spot?.id}/edit`}>
               <button className="one-button">Edit</button>
             </NavLink>
-            <button className="one-button" onClick={() => deleteHandler(id)}>Delete</button>
+            <button className="one-button" onClick={() => deleteSpotHandler(id)}>Delete</button>
           </div>
         )}
       </div>
@@ -66,9 +83,22 @@ function GetSpot() {
           {reviews?.map(review =>
             <div key={review.id}>
               <h3 className="review-user">Reviewed By {review?.User?.firstName}</h3>
+              <h4 className="review-user">Rating:  {review?.stars}</h4>
               <div className="review-review">{review?.review}</div>
+
+              {sessionUser?.id === review?.userId && (
+                <div>
+                  <button className="one-button" onClick={() => deleteReviewHandler(review?.id)} >delete review</button>
+                </div>
+              )}
+
             </div>)}
         </div>
+
+
+        <NavLink hidden={userArr?.includes(true) || isOwner()} to={`/spots/${id}/addReview`}>Add a Review</NavLink>
+
+
       </div>
 
     </div>

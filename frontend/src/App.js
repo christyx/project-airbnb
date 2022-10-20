@@ -8,6 +8,7 @@ import GetSpot from './components/SpotsID';
 import CreateSpot from './components/CreateSpot'
 import GetUserSpots from './components/UserSpot'
 import EditUserSpots from './components/EditSpot'
+import CreateReview from './components/CreateReview'
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -38,12 +39,16 @@ function App() {
           <Route exact path="/">
             <GetAllSpots />
           </Route>
+          <Route path="/spots/:id/addReview">
+            <CreateReview />
+          </Route>
           <Route path="/spots/:id">
             <GetSpot />
           </Route>
           <Route path="/BecomeAHost">
             <CreateSpot />
           </Route>
+
         </Switch>
       )}
     </>
