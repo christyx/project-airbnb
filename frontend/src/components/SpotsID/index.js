@@ -34,7 +34,7 @@ function GetSpot() {
   }
 
   const alreadyHasReview = () => {
-return reviews.map(review => review.userId === sessionUser.id)
+return reviews?.map(review => review?.userId === sessionUser?.id)
   }
   const userArr = alreadyHasReview()
 

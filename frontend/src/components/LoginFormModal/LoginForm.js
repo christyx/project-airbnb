@@ -6,26 +6,23 @@ function LoginForm() {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors([]);
+    setMessage([]);
     return dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      }
-    );
-  };
+        if (data && data.message) setMessage(data.message);
+      })
+
+
+  }
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
-      </ul>
+      {message.length>1? <ul><li>{message}</li></ul>: ''}
       <label className="form-each">
         Email
         <input
