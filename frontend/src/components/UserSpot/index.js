@@ -21,6 +21,7 @@ function GetUserSpots() {
   return (
     <div>
       <div className="spot-preview">
+        {spots.length<1? <div>You don't have any spot.</div>: ''}
         {spots?.map((spot) => {
           return (
             <NavLink key={spot.id} to={`/spots/${spot.id}`}>
