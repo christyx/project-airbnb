@@ -5,7 +5,3 @@ sequelize.showAllSchemas({ logging: false }).then(async (data) => {
     await sequelize.createSchema(process.env.SCHEMA);
   }
 });
-
-npm install && npm run build && npm run sequelize --prefix backend db: migrate: undo && npm run sequelize --prefix backend db: migrate && npm run sequelize--prefix backend db: seed: all
-
-npm install && npm run build && npm run sequelize--prefix backend db: migrate && npm run sequelize--prefix backend db: seed: undo && npm run sequelize--prefix backend db: migrate: undo && npm run sequelize--prefix backend db: seed: all
