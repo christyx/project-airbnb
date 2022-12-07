@@ -14,7 +14,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     return await queryInterface.bulkInsert('Spots', [
+    options.tableName = 'Spots';
+    return await queryInterface.bulkInsert(options, [
       {
         ownerId: 3,
         address: "123 Main Street",
@@ -85,6 +86,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('Spots', null, {});
+    options.tableName = 'Spots';
+    await queryInterface.bulkDelete(options);
   }
 };

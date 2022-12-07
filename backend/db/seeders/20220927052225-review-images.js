@@ -14,7 +14,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     await queryInterface.bulkInsert('ReviewImages', [
+    options.tableName = 'ReviewImages';
+    await queryInterface.bulkInsert(options, [
        {
         reviewId: 1,
         url: "11"
@@ -45,6 +46,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('ReviewImages', null, {});
+    options.tableName = 'ReviewImages';
+    await queryInterface.bulkDelete(options);
   }
 };

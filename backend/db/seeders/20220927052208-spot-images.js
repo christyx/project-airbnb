@@ -14,7 +14,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     return await queryInterface.bulkInsert('SpotImages', [
+    options.tableName = 'SpotImages';
+    return await queryInterface.bulkInsert(options, [
        {
          spotId: 1,
          url: "https://a0.muscache.com/im/pictures/16e8884c-7ff7-4868-a627-aafe0bfbb963.jpg",
@@ -50,6 +51,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('SpotImages', null, {});
+    options.tableName = 'SpotImages';
+    await queryInterface.bulkDelete(options);
   }
 };
