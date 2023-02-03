@@ -46,6 +46,12 @@ function ProfileButton({ user }) {
             </NavLink>
             </li>
           <li>
+            <NavLink id='manage-spot' to="/bookings">
+              manage my bookings
+            </NavLink>
+
+          </li>
+          <li>
             <button className='one-button' onClick={logout}>Log Out</button>
           </li>
         </ul>

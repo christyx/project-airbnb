@@ -10,6 +10,7 @@ import GetUserSpots from './components/UserSpot'
 import EditUserSpots from './components/EditSpot'
 import CreateReview from './components/CreateReview'
 import * as sessionActions from "./store/session";
+import GetBooking from './components/Bookings'
 import Navigation from "./components/Navigation";
 
 function App() {
@@ -48,7 +49,9 @@ function App() {
           <Route path="/BecomeAHost">
             <CreateSpot />
           </Route>
-
+          <Route path="/bookings">
+            <GetBooking />
+          </Route>
         </Switch>
       )}
     </>
