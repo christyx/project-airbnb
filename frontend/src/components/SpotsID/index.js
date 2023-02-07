@@ -41,7 +41,6 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
   const isOwner = () => {
     return spot?.Owner?.id === sessionUser?.id
   }
-  console.log(isOwner())
 
 
   return (
@@ -52,7 +51,7 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
           <i class="fa-solid fa-star"></i>
           <div>{spot?.avgStarRating ? parseFloat(spot.avgStarRating).toFixed(1) : 'no rating yet'}</div>
         </div>
-        <div className="spot-review" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
+        <div className="spot-review-one" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
         <div className="spot-location" >{`${spot?.city}, ${spot?.state}, ${spot?.country}`}</div>
 
         {sessionUser?.id === spot?.ownerId && (
@@ -69,7 +68,8 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
 
       <div>{`$${spot?.price} night`}</div>
       <h3 id='description'>Description:
-        {spot?.description}</h3>
+        <h3 id='description'>{spot?.description}</h3>
+        </h3>
       <div className="review-session">
         <div className="below-name">
           <div className="rating">
@@ -77,7 +77,7 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
             <div>{spot?.avgStarRating ? parseFloat(spot.avgStarRating).toFixed(1) : 'no rating yet'}</div>
           </div>
 
-          <div className="spot-review" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
+          <div className="spot-review-one" >{spot?.numReviews ? spot.numReviews : '0'} Reviews</div>
         </div>
         <div>
           {reviews?.map(review =>

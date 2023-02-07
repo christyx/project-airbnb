@@ -20,16 +20,51 @@ function GetAllSpots() {
 
   return (
     <div>
+      <div className="spot-nav-wrapper" >
+        <NavLink className="spot-nav-all" to='/spots/1'>
+          <img src="https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg"
+            alt='spot-airbnb'
+            className="spot-nav"
+          />
+          Beachfront
+        </NavLink>
+        <NavLink className="spot-nav-all" to='/spots/1'>
+          <img src="https://a0.muscache.com/pictures/78ba8486-6ba6-4a43-a56d-f556189193da.jpg"
+            alt='spot-airbnb'
+            className="spot-nav"
+          />
+          <div>
+Mansions
+          </div>
+
+        </NavLink>
+        <NavLink className="spot-nav-all" to='/spots/1'>
+          <img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg"
+            alt='spot-airbnb'
+            className="spot-nav"
+          />
+          Amazing views
+        </NavLink>
+        <NavLink className="spot-nav-all" to='/spots/1'>
+          <img src="https://a0.muscache.com/pictures/ed8b9e47-609b-44c2-9768-33e6a22eccb2.jpg"
+            alt='spot-airbnb'
+            className="spot-nav"
+          />
+          International
+        </NavLink>
+      </div>
       <div className="spot-preview">
+
         {spots?.map((spot) => {
           return (
+
             <NavLink key={spot.id} to={`/spots/${spot.id}`}>
               <img src={spot.previewImage}
                 alt='spot-airbnb'
                 className="spot-image-preview"
               />
               <div className="location-edit">
-                <div className="spot-description">{`${spot.city}, ${spot.state}`}</div>
+                <div className="spot-description">{`${spot.city}, ${spot.state}, ${spot.country}`}</div>
                 {sessionUser?.id === spot?.ownerId && (
                   <div>
                     <NavLink to={`/spots/${spot?.id}/edit`}>
@@ -41,6 +76,11 @@ function GetAllSpots() {
               </div>
 
               <div className="spot-price">{`$${spot.price} night`}</div>
+              <div className="spot-review">
+                {`Rating: ${parseFloat(spot.avgRating).toFixed(1)}  `}
+
+                <i class="fa-solid fa-star"></i>
+              </div>
             </NavLink>
           )
         })

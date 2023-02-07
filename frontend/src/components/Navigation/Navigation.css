@@ -38,19 +38,19 @@
 
 }
 
-/* .one-button {
+.one-button-open {
   margin: 8px;
   background-color: white;
   color: #ff5a5f;
   border: 1px solid #ff5a5f
 }
 
-.one-button:hover {
+.one-button-open:hover {
   margin: 8px;
   background-color: #ff5a5f;
   color: white;
   border: 1px solid #ff5a5f
-} */
+}
 
 .profile-dropdown {
   color: #ff5a5f;

@@ -1,0 +1,54 @@
+.bookings_display_name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px;
+}
+
+.bookings_display_all {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #dddddd;
+}
+
+.bookings_image {
+  object-fit: cover;
+  width: 500px;
+  height: 300px;
+  border-radius: 25px;
+  /* padding: 10px; */
+  margin: 20px;
+}
+
+.bookings_name {
+  font-size: 25px;
+  margin-bottom: 10px;
+  font-weight: 800;
+  color:black;
+}
+.bookings_name:hover {
+  color: #ff5a5f;
+}
+
+.bookings_address {
+    margin-bottom: 25px;
+}
+
+.bookings_date {
+  margin-top: 10px;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bolder;
+}
+
+.bookings_icon {
+  display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  margin-top: 40px;
+
+}
+
+.bookings_icon_one {
+  margin-right: 40px;
+}

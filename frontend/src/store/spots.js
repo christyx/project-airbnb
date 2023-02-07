@@ -132,6 +132,7 @@ export default function spotsReducer(state = initialState, action) {
       newState.allSpots = action.payload.Spots
       return newState;
     case GET:
+      newState = { ...state }
       newState.singleSpot = action.payload
       return newState;
     case GET_USER_SPOT:
