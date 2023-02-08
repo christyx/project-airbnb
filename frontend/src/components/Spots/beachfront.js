@@ -4,14 +4,23 @@ import { NavLink, useHistory } from "react-router-dom";
 import { getSpotsThunk, deleteSpotThunk } from "../../store/spots"
 import './spots.css';
 
-function GetAllSpots() {
+function GetBeach() {
   const dispatch = useDispatch();
   useEffect(() => { dispatch(getSpotsThunk()) }, [dispatch]);
   const history = useHistory()
   const sessionUser = useSelector(state => state.session.user);
-  const spots = useSelector((state) => {
+  const allspots = useSelector((state) => {
     if (state.spots.allSpots) return Object.values(state.spots.allSpots)
   })
+
+  const spots = []
+  spots.push(allspots[0])
+  spots.push(allspots[2])
+  spots.push(allspots[4])
+  spots.push(allspots[5])
+  spots.push(allspots[8])
+  spots.push(allspots[11])
+  spots.push(allspots[12])
 
   const deleteHandler = async (id) => {
     await dispatch(deleteSpotThunk(id))
@@ -21,7 +30,7 @@ function GetAllSpots() {
   return (
     <div>
       <div className="spot-nav-wrapper" >
-        <NavLink className="spot-nav-all" to='/beachfront'>
+        <NavLink className="spot-nav-seleted" to='/'>
           <img src="https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg"
             alt='spot-airbnb'
             className="spot-nav"
@@ -58,13 +67,13 @@ function GetAllSpots() {
         {spots?.map((spot) => {
           return (
 
-            <NavLink key={spot.id} to={`/spots/${spot.id}`}>
-              <img src={spot.previewImage}
+            <NavLink key={spot?.id} to={`/spots/${spot?.id}`}>
+              <img src={spot?.previewImage}
                 alt='spot-airbnb'
                 className="spot-image-preview"
               />
               <div className="location-edit">
-                <div className="spot-description">{`${spot.city}, ${spot.state}, ${spot.country}`}</div>
+                <div className="spot-description">{`${spot?.city}, ${spot?.state}, ${spot?.country}`}</div>
                 {sessionUser?.id === spot?.ownerId && (
                   <div>
                     <NavLink to={`/spots/${spot?.id}/edit`}>
@@ -75,9 +84,9 @@ function GetAllSpots() {
                 )}
               </div>
 
-              <div className="spot-price">{`$${spot.price} night`}</div>
+              <div className="spot-price">{`$${spot?.price} night`}</div>
               <div className="spot-review">
-                {`Rating: ${parseFloat(spot.avgRating).toFixed(1)}  `}
+                {`Rating: ${parseFloat(spot?.avgRating).toFixed(1)}  `}
 
                 <i class="fa-solid fa-star"></i>
               </div>
@@ -90,4 +99,4 @@ function GetAllSpots() {
   )
 }
 
-export default GetAllSpots;
+export default GetBeach;

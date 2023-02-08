@@ -68,11 +68,26 @@ text-decoration: none;
  margin-bottom: 10px;
  margin-left: 70px;
  margin-right: 70px;
+ color: rgb(95, 0, 183);
+}
 
+.spot-nav-all:hover {
+color: #ff5a5f;
 }
 
 .spot-nav-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.spot-nav-seleted {
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 70px;
+    margin-right: 70px;
+    border-bottom: 2px solid gray;
 }

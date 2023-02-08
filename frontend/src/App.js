@@ -5,6 +5,10 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import GetAllSpots from "./components/Spots";
 import GetSpot from './components/SpotsID';
+import GetBeach from './components/Spots/beachfront'
+import GetMansion from './components/Spots/mansion'
+import GetInternational from './components/Spots/international'
+import GetView from './components/Spots/views'
 import CreateSpot from './components/CreateSpot'
 import GetUserSpots from './components/UserSpot'
 import EditUserSpots from './components/EditSpot'
@@ -39,6 +43,18 @@ function App() {
           </Route>
           <Route exact path="/">
             <GetAllSpots />
+          </Route>
+          <Route exact path="/beachfront">
+            <GetBeach />
+          </Route>
+          <Route exact path="/mansions">
+            <GetMansion />
+          </Route>
+          <Route exact path="/views">
+            <GetView />
+          </Route>
+          <Route exact path="/international">
+            <GetInternational />
           </Route>
           <Route path="/spots/:id/addReview">
             <CreateReview />
