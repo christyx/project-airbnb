@@ -103,8 +103,7 @@ router.put(
           message: "Sorry, this spot is already booked for the specified dates",
           statusCode: 403,
           errors: [
-            "Start date conflicts with an existing booking",
-            "End date conflicts with an existing booking"
+            "Sorry, this spot is already booked for the specified dates"
           ]
         })
       }

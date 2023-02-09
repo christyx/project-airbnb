@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, NavLink, useHistory } from "react-router-dom";
 import { getSpotsIdThunk, deleteSpotThunk } from "../../store/spots";
 import { getReviewsThunk, deleteReviewThunk } from "../../store/reviews";
+
 import './spotsId.css';
+import CreateBookingCard from "./CreateBookingCard/CreateBookingCard";
 
 function GetSpot() {
   const dispatch = useDispatch();
@@ -66,10 +68,15 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
       {spot?.SpotImages?.map(image => <img key={image.id} className='spot-image' src={image.url} alt='spot' />)}
       <h2 id='hosted'>Entire Home hosted by {spot?.Owner?.firstName} </h2>
 
-      <div>{`$${spot?.price} night`}</div>
+      {/* <div>{`$${spot?.price} night`}</div> */}
       <h3 id='description'>Description:
         <h3 id='description'>{spot?.description}</h3>
         </h3>
+
+
+      <CreateBookingCard spot={spot} />
+
+
       <div className="review-session">
         <div className="below-name">
           <div className="rating">
