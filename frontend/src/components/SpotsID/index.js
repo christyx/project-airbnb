@@ -66,6 +66,8 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
         )}
       </div>
       {spot?.SpotImages?.map(image => <img key={image.id} className='spot-image' src={image.url} alt='spot' />)}
+
+      
       <h2 id='hosted'>Entire Home hosted by {spot?.Owner?.firstName} </h2>
 
       {/* <div>{`$${spot?.price} night`}</div> */}
