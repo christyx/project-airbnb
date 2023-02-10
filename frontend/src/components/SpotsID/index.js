@@ -31,12 +31,12 @@ function GetSpot() {
   const deleteReviewHandler = async (reviewId) => {
     await dispatch(deleteReviewThunk(reviewId, id))
 
-   history.push('/');
+    history.push('/');
 
   }
 
   const alreadyHasReview = () => {
-return reviews?.map(review => review?.userId === sessionUser?.id)
+    return reviews?.map(review => review?.userId === sessionUser?.id)
   }
   const userArr = alreadyHasReview()
 
@@ -67,16 +67,73 @@ return reviews?.map(review => review?.userId === sessionUser?.id)
       </div>
       {spot?.SpotImages?.map(image => <img key={image.id} className='spot-image' src={image.url} alt='spot' />)}
 
-      
-      <h2 id='hosted'>Entire Home hosted by {spot?.Owner?.firstName} </h2>
-
-      {/* <div>{`$${spot?.price} night`}</div> */}
-      <h3 id='description'>Description:
-        <h3 id='description'>{spot?.description}</h3>
-        </h3>
+      <div className='host-des-book'>
+        <div className='host-des'>
+          <h2 id='hosted'>Entire Home hosted by {spot?.Owner?.firstName} </h2>
 
 
-      <CreateBookingCard spot={spot} />
+
+          <h3 className='superhost'>
+            <i class="fa-solid fa-thumbs-up">    {spot?.Owner?.firstName} is a Superhost</i>
+          </h3>
+
+          <h3 className='superhost'>
+            <i class="fa-solid fa-location-dot">  Great location</i>
+          </h3>
+
+          <h3 className='superhost-last'>
+            <i class="fa-solid fa-key">  Great check-in experience</i>
+          </h3>
+
+          <div className='aircover-all'>
+            <img src={'https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg'}
+              alt='aircover'
+              className="aircover"
+            />
+            <h4>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</h4>
+          </div>
+
+          <h3 id='description'>Description :
+            <h3>{spot?.description}</h3>
+          </h3>
+
+          <h3 id='offer'>What this place offers :
+            <h4>
+              <i class="fa-solid fa-utensils"></i>  cooking basics
+            </h4>
+            <h4>
+              <i class="fa-solid fa-square-parking"></i>  free parking
+            </h4>
+            <h4>
+              <i class="fa-solid fa-wifi"></i>    wifi
+            </h4>
+            <h4>
+              <i class="fa-solid fa-ice-cream"></i> refrigerator
+            </h4>
+            <h4>
+              <i class="fa-solid fa-tv"></i>  tv with cable
+            </h4>
+            <h4>
+              <i class="fa-solid fa-dryer-heat"></i>  washer and dryer
+            </h4>
+            {/* <h4>
+              <i class="fa-regular fa-dryer-heat"></i>  washer
+            </h4> */}
+
+
+
+          </h3>
+        </div>
+
+
+
+
+
+        <CreateBookingCard className='book' spot={spot} />
+
+
+      </div>
+
 
 
       <div className="review-session">

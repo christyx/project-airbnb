@@ -74,6 +74,15 @@ console.log('this is today',today)
   const review =
     spot?.numReviews > 1 || spot?.numReviews === 0 ? "reviews" : "review";
 
+    let bookday = 0
+
+  if (endDate !== '' && startDate !== '') {
+    bookday = endDate - startDate
+  }
+
+
+
+  // const bookday = endDate - startDate
   return (
     <div id="create-booking-card-container">
       <div id="create-booking-card">
@@ -140,8 +149,11 @@ console.log('this is today',today)
             )}
             {!user && <LoginFormModal type={"createBooking"} />}
           </>
+
         </div>
+ 
       </div>
+
     </div>
   );
 };

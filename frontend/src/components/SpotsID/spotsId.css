@@ -3,7 +3,7 @@
   flex-direction: column;
   padding: 70px;
   padding-top: 30px;
-margin-left: 100px;
+  margin-left: 100px;
 
 
 }
@@ -25,7 +25,8 @@ margin-left: 100px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
 }
-.spot-image{
+
+.spot-image {
   object-fit: cover;
   width: 980px;
   height: 500px;
@@ -49,22 +50,70 @@ margin-left: 100px;
 #hosted {
   padding-bottom: 20px;
   border-bottom: 1px solid #dddddd;
-  width: 800px;
+  width: 500px;
 }
 
 #description {
-  padding-bottom: 20px;
-  width: 750px;
+  padding-bottom: 10px;
+  width: 500px;
+  height: 160px;
+  border-bottom: 1px solid #dddddd;
+  font-size: 18px;
 }
+
 .review-session {
   display: flex;
   flex-direction: column;
   padding-top: 40px;
-  border-top: 1px solid #dddddd;
-  width: 800px;
+  /* border-top: 1px solid #dddddd; */
+  width: 500px;
 }
 
 .review-review {
   padding-bottom: 30px;
-  width: 700px;
+  width: 500px;
+}
+
+.host-des-book {
+  display: flex;
+  flex-direction: row;
+  height: 1150px;
+  /* justify-content: flex-start;
+  align-items: flex-start; */
+}
+
+.book {
+  margin-top: 50px;
+  /* position:fixed; */
+}
+
+.superhost {
+  color: black;
+  margin-top: 30px;
+}
+
+.superhost-last {
+color: black;
+padding-bottom: 30px;
+margin-top: 30px;
+margin-bottom: 30px;
+border-bottom: 1px solid #dddddd;
+}
+
+.aircover {
+  width: 120px;
+}
+
+.aircover-all {
+  width: 500px;
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 30px;
+  padding-top: 10px;
+}
+#offer {
+  padding-bottom: 10px;
+    width: 500px;
+    height: 260px;
+    border-bottom: 1px solid #dddddd;
+    font-size: 18px;
 }
