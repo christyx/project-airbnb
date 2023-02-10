@@ -98,7 +98,10 @@ function GetSpot() {
           </h3>
 
           <h3 id='offer'>What this place offers :
-            <h4>
+          <div className='offer-icons'>
+
+          <div>
+              <h4>
               <i class="fa-solid fa-utensils"></i>  cooking basics
             </h4>
             <h4>
@@ -113,12 +116,25 @@ function GetSpot() {
             <h4>
               <i class="fa-solid fa-tv"></i>  tv with cable
             </h4>
-            <h4>
-              <i class="fa-solid fa-dryer-heat"></i>  washer and dryer
+          </div>
+<div>
+  <h4>
+              <i class="fa-solid fa-droplet"></i>  hot water
             </h4>
-            {/* <h4>
-              <i class="fa-regular fa-dryer-heat"></i>  washer
-            </h4> */}
+            <h4>
+              <i class="fa-solid fa-children"></i>  kids welcome
+            </h4>
+            <h4>
+              <i class="fa-solid fa-temperature-arrow-down"></i>     air conditioning
+            </h4>
+            <h4>
+              <i class="fa-solid fa-temperature-arrow-up"></i>      heating
+            </h4>
+            <h4>
+              <i class="fa-solid fa-paw"></i>   pet allowed
+            </h4>
+</div>
+</div>
 
 
 
@@ -149,7 +165,9 @@ function GetSpot() {
           {reviews?.map(review =>
             <div key={review.id}>
               <h3 className="review-user">Reviewed By {review?.User?.firstName}</h3>
-              <h4 className="review-user">Rating:  {review?.stars}</h4>
+              <h4 className="review-user">Rating:  {review?.stars  }
+                <i class="fa-solid fa-star fa-xs"></i>
+              </h4>
               <div className="review-review">{review?.review}</div>
 
               {sessionUser?.id === review?.userId && (
