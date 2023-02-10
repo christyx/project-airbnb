@@ -31,6 +31,7 @@ function Navigation({ isLoaded }) {
       <div>
         <NavLink exact to="/">
           <img id='logo' src={logo} alt='airbnb-logo' />
+          {/* <i class="fa-brands fa-airbnb"></i> */}
         </NavLink>
       </div>
       <div className='right-nav'>

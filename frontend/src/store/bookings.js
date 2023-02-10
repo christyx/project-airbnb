@@ -53,13 +53,16 @@ export const createBookingThunk =
 
 
 
-export const updateBookingThunk = (data, bookingId) => async (dispatch) => {
+export const updateBookingThunk = (startDate, endDate, bookingId) => async (dispatch) => {
   const response = await csrfFetch(`/api/bookings/${bookingId}`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify({
+      startDate,
+      endDate,
+})
   });
 
   if (response.ok) {

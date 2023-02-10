@@ -55,6 +55,20 @@ function GetMansion() {
           />
           Amazing views
         </NavLink>
+        <NavLink className="spot-nav-all" to='/luxe'>
+          <img src="https://a0.muscache.com/pictures/c8e2ed05-c666-47b6-99fc-4cb6edcde6b4.jpg"
+            alt='spot-airbnb'
+            className="spot-nav"
+          />
+          Luxe
+        </NavLink>
+        <NavLink className="spot-nav-all" to='/trending'>
+          <img src="https://a0.muscache.com/pictures/3726d94b-534a-42b8-bca0-a0304d912260.jpg"
+            alt='spot-airbnb'
+            className="spot-nav"
+          />
+          Trending
+        </NavLink>
         <NavLink className="spot-nav-all" to='/international'>
           <img src="https://a0.muscache.com/pictures/ed8b9e47-609b-44c2-9768-33e6a22eccb2.jpg"
             alt='spot-airbnb'

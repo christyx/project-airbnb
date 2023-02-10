@@ -7,6 +7,8 @@ import GetAllSpots from "./components/Spots";
 import GetSpot from './components/SpotsID';
 import GetBeach from './components/Spots/beachfront'
 import GetMansion from './components/Spots/mansion'
+import GetLuxe from './components/Spots/luxe'
+import GetTrending from './components/Spots/trending'
 import GetInternational from './components/Spots/international'
 import GetView from './components/Spots/views'
 import CreateSpot from './components/CreateSpot'
@@ -16,6 +18,7 @@ import CreateReview from './components/CreateReview'
 import * as sessionActions from "./store/session";
 import GetBooking from './components/Bookings'
 import Navigation from "./components/Navigation";
+import EditBooking from "./components/Bookings/editbooking"
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +56,12 @@ function App() {
           <Route exact path="/views">
             <GetView />
           </Route>
+          <Route exact path="/trending">
+            <GetTrending />
+          </Route>
+          <Route exact path="/luxe">
+            <GetLuxe />
+          </Route>
           <Route exact path="/international">
             <GetInternational />
           </Route>
@@ -67,6 +76,9 @@ function App() {
           </Route>
           <Route path="/bookings">
             <GetBooking />
+          </Route>
+          <Route path="/edit/bookings/:bookingId">
+            <EditBooking />
           </Route>
         </Switch>
       )}

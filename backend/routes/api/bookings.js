@@ -94,20 +94,20 @@ router.put(
       allBookings.push(booking.toJSON())
     })
 
-    allBookings.forEach(booking => {
-      const start = Date.parse(booking.startDate)
-      const end = Date.parse(booking.endDate)
-      if (start <= parsedStart < end && (parsedEnd <= end && parsedEnd > start)) {
-        res.status(403)
-        return res.json({
-          message: "Sorry, this spot is already booked for the specified dates",
-          statusCode: 403,
-          errors: [
-            "Sorry, this spot is already booked for the specified dates"
-          ]
-        })
-      }
-    })
+    // allBookings.forEach(booking => {
+    //   const start = Date.parse(booking.startDate)
+    //   const end = Date.parse(booking.endDate)
+    //   if (start <= parsedStart < end && (parsedEnd <= end && parsedEnd > start)) {
+    //     res.status(403)
+    //     return res.json({
+    //       message: "Sorry, this spot is already booked for the specified dates",
+    //       statusCode: 403,
+    //       errors: [
+    //         "Sorry, this spot is already booked for the specified dates"
+    //       ]
+    //     })
+    //   }
+    // })
 
     if (booking.userId = user.id) {
       await booking.update(

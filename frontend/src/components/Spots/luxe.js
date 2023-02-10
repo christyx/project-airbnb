@@ -4,7 +4,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { getSpotsThunk, deleteSpotThunk } from "../../store/spots"
 import './spots.css';
 
-function GetView() {
+function GetLuxe() {
   const dispatch = useDispatch();
   useEffect(() => { dispatch(getSpotsThunk()) }, [dispatch]);
   const history = useHistory()
@@ -14,13 +14,14 @@ function GetView() {
   })
 
   const spots = []
-  spots.push(allspots[2])
-  spots.push(allspots[4])
-  spots.push(allspots[8])
+  spots.push(allspots[14])
+  spots.push(allspots[12])
   spots.push(allspots[9])
   spots.push(allspots[10])
-  spots.push(allspots[12])
-  spots.push(allspots[14])
+  spots.push(allspots[11])
+  spots.push(allspots[4])
+  spots.push(allspots[0])
+
 
   const deleteHandler = async (id) => {
     await dispatch(deleteSpotThunk(id))
@@ -47,14 +48,14 @@ function GetView() {
           </div>
 
         </NavLink>
-        <NavLink className="spot-nav-seleted" to='/'>
+        <NavLink className="spot-nav-all" to='/views'>
           <img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg"
             alt='spot-airbnb'
             className="spot-nav"
           />
           Amazing views
         </NavLink>
-        <NavLink className="spot-nav-all" to='/luxe'>
+        <NavLink className="spot-nav-seleted" to='/'>
           <img src="https://a0.muscache.com/pictures/c8e2ed05-c666-47b6-99fc-4cb6edcde6b4.jpg"
             alt='spot-airbnb'
             className="spot-nav"
@@ -113,4 +114,4 @@ function GetView() {
   )
 }
 
-export default GetView;
+export default GetLuxe;

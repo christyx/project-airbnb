@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
-import { getBookingsThunk, deleteBookingThunk } from "../../store/bookings"
+import { getBookingsThunk, deleteBookingThunk, updateBookingThunk } from "../../store/bookings"
 import { getSpotsThunk } from "../../store/spots"
 import './bookings.css'
 
@@ -39,6 +39,7 @@ function GetBooking() {
 
   }
 
+
   return (
     <div>
       {Array.isArray(bookings) && (bookings?.map((booking?) => {
@@ -71,28 +72,28 @@ function GetBooking() {
               </div>
               <div className="bookings_icon">
 
-                <button
-                  classname="bookings_one" hidden={booking?.startDate < today} onClick={() => deleteBookingHandler(booking?.id)}>
-                  <i class="fa-solid fa-pen-to-square fa-2xl" classname="bookings_one">edit</i>
+                {/* <button className="edit_booking_button" hidden={booking?.startDate < today} onClick={() => updateBookingHandler(booking?.id)}>
+                  <i class="fa-solid fa-pen-to-square fa-2xl">  edit</i>
+                </button> */}
 
-                </button>
+                <NavLink className="edit_booking_button" hidden={booking?.startDate < today} to={`/edit/bookings/${booking?.id}`}>
+                <i class="fa-solid fa-pen-to-square fa-2xl">  edit</i> </NavLink>
 
-                <button hidden={booking?.startDate < today} classname="one-button" onClick={() => deleteBookingHandler(booking?.id)}>
-                  <i class="fa-solid fa-trash fa-2xl">delete</i>
+              <button hidden={booking?.startDate < today} className="delete_booking_button" onClick={() => deleteBookingHandler(booking?.id)}>
+                <i class="fa-solid fa-trash fa-2xl">  delete</i>
 
-                </button>
-
-
-              </div>
-              <h4 hidden={booking?.endDate > today}>* past bookings cannot be edited or deleted</h4>
+              </button>
 
             </div>
+            <h4 hidden={booking?.endDate > today}>* past bookings cannot be edited or deleted</h4>
 
           </div>
 
-        )
-      }))}
-    </div>
+          </div>
+
+  )
+}))}
+    </div >
   )
 }
 
