@@ -41,7 +41,7 @@ module.exports = {
         price: 506
       },
       {
-        ownerId: 3,
+        ownerId: 1,
         address: "456 Main Street",
         city: "Laguna Beach",
         state: "California",
@@ -65,7 +65,7 @@ module.exports = {
         price: 400
       },
       {
-        ownerId: 4,
+        ownerId: 1,
         address: "888 Hillside",
         city: "Malibu",
         state: "California",
@@ -137,7 +137,7 @@ module.exports = {
         price: 802
       },
       {
-        ownerId: 4,
+        ownerId: 1,
         address: "17 Flower Street",
         city: "Catskill",
         state: "New York",
