@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         spotId: 5,
-        url: "https://a0.muscache.com/im/pictures/d312644d-fb13-40c1-b671-4b1fa20e04a2.jpg",
+        url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-725580807334861667/original/75c908e6-0636-45be-917c-5a7ada99b057.jpeg",
         preview: true
       },
       {
@@ -48,12 +48,12 @@ module.exports = {
       },
       {
         spotId: 7,
-        url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-43590120/original/f4b7563b-3ba6-41ba-a7d7-a5f0e21dd5c9.jpeg",
+        url: "https://a0.muscache.com/im/pictures/4316b6ec-2afd-4d03-bc3e-8b2887304fc3.jpg",
         preview: true
       },
       {
         spotId: 8,
-        url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-41558384/original/7c2cb844-b0b6-48d0-bdc1-3744dcf218bd.jpeg",
+        url: "https://files.tripstodiscover.com/files/2021/02/Indoor-Outdoor-Living-with-Stackable-Doors.jpg",
         preview: true
       },
       {
