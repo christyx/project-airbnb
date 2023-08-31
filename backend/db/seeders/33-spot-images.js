@@ -23,7 +23,7 @@ module.exports = {
        },
       {
         spotId: 9,
-        url: "https://a0.muscache.com/im/pictures/7754bf35-8060-4476-9751-6886040af3b6.jpg",
+        url: "https://i0.wp.com/files.tripstodiscover.com/files/2021/02/Four-Bedroom-Four-Bathroom-House.jpg",
         preview: true
       },
       {
